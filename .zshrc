@@ -14,6 +14,7 @@
 export XCODE_VERSION="Xcode 9.2"
 
 export GOPATH="$HOME/go"
+export GOBIN="$HOME/go/bin"
 PATH=$PATH:~/go/bin/
 
 

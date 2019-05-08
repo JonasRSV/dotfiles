@@ -168,3 +168,36 @@ augroup remember_folds
   autocmd BufWinEnter *.py silent! loadview
   autocmd BufWinEnter *.go silent! loadview
 augroup END
+
+func BashColors(A, L, P)
+  return "green\nnormal\nblue\nred\nhlred\nhlblue\nblink\nreset"
+endfun
+
+func WriteColor(color)
+  echom "Hello"
+  echom a:color
+  echo "HI"
+  if a:color == "green"
+    call feedkeys('a\033[32m', 't') 
+  elseif a:color == "normal"
+    call feedkeys('a\033[39m', 't')
+  elseif a:color == "blue"
+    call feedkeys('a\033[34m', 't')
+  elseif a:color == "red"
+    call feedkeys('a\033[31m', 't')
+  elseif a:color == "hlred"
+    call feedkeys('a\033[41m', 't')
+  elseif a:color == "hlblue"
+    call feedkeys('a\033[44m', 't')
+  elseif a:color == "bold"
+    call feedkeys('a\033[1m', 't')
+  elseif a:color == "reset"
+    call feedkeys('a\033[0m', 't')
+  else
+    echo "Unknown Action :("
+  endif
+endfun
+
+command! -nargs=1 -complete=custom,BashColors BashColor call WriteColor(<f-args>)
+
+
