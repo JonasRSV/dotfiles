@@ -8,6 +8,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+Plugin 'majutsushi/tagbar'
 
 
 Plugin 'neoclide/coc.nvim'
@@ -27,11 +28,6 @@ let g:disable_vim_auto_close_plugin = 1
 "Global sets
 set laststatus=1
 set statusline=%f\ %y
-
-let g:netrw_altv=1
-let g:netrw_preview   = 1
-let g:netrw_liststyle = 3
-let g:netrw_winsize   = 75
 
 set encoding=utf-8
 set clipboard+=unnamed,unnamedplus
@@ -81,10 +77,12 @@ syntax on
 filetype plugin indent on
 
 if has("nvim")
-  nnoremap <C-space> <C-^>`"zz
+  nnoremap <C-space>j :bp<CR>`"zz
+  nnoremap <C-space>k :bn<CR>`"zz
   nnoremap <leader><C-space> :vertical sbp<CR>`"zz
 else
-  map <C-@> <C-^>`"zz
+  nnoremap <C-@>j :bp<CR>`"zz
+  nnoremap <C-@>k :bn<CR>`"zz
   map <leader><C-@> :vertical sbp<CR>`"zz
 endif
 
@@ -97,17 +95,36 @@ inoremap [; [];<Esc>i<Esc>i
 inoremap [, [],<Esc>i<Esc>i
 
 map <space> <leader>
-map <C-b> :b 
-map <leader><C-b> :vertical sb 
+map <C-b> :Buffers<CR>
+map s :Lines<CR>
 map <C-d> :bd<CR>
-map <C-e> :Explore<CR>
-map s /
 map ö }
 map ä {
 map Y 0y$
-map R :%s//
 
+" Toggle Vexplore with Ctrl-E
+function! ToggleVExplorer()
+  if exists("t:expl_buf_num")
+      let expl_win_num = bufwinnr(t:expl_buf_num)
+      if expl_win_num != -1
+          let cur_win_nr = winnr()
+          exec expl_win_num . 'wincmd w'
+          close
+          exec cur_win_nr . 'wincmd w'
+          unlet t:expl_buf_num
+      else
+          unlet t:expl_buf_num
+      endif
+  else
+      exec '1wincmd w'
+      Vexplore
+      let t:expl_buf_num = bufnr("%")
+  endif
+endfunction
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
 
+map <silent> <C-e> :call ToggleVExplorer()<CR>
 
 "stty -ixon IS NEEDED FOR C-s binding put in *rc
 nnoremap gw :RgSearchWord<CR>
@@ -201,3 +218,33 @@ endfun
 command! -nargs=1 -complete=custom,BashColors BashColor call WriteColor(<f-args>)
 
 
+
+nnoremap tb :TagbarToggle<CR>
+" Golang Tags
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+  \ }
