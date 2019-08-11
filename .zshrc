@@ -123,10 +123,10 @@ fs() {
 		| xargs tmux switch-client -t
 }
 
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/jonval/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jonval/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/jonval/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jonval/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

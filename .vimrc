@@ -9,6 +9,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'majutsushi/tagbar'
+Plugin 'xolox/vim-notes'
+Plugin 'xolox/vim-misc'
 
 
 Plugin 'neoclide/coc.nvim'
@@ -76,15 +78,15 @@ let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
 syntax on
 filetype plugin indent on
 
-if has("nvim")
-  nnoremap <C-space>j :bp<CR>`"zz
-  nnoremap <C-space>k :bn<CR>`"zz
-  nnoremap <leader><C-space> :vertical sbp<CR>`"zz
-else
-  nnoremap <C-@>j :bp<CR>`"zz
-  nnoremap <C-@>k :bn<CR>`"zz
-  map <leader><C-@> :vertical sbp<CR>`"zz
-endif
+"if has("nvim")
+  "nnoremap <C-space>j :bp<CR>`"zz
+  "nnoremap <C-space>k :bn<CR>`"zz
+  "nnoremap <leader><C-space> :vertical sbp<CR>`"zz
+"else
+  "nnoremap <C-@>j :bp<CR>`"zz
+  "nnoremap <C-@>k :bn<CR>`"zz
+  "map <leader><C-@> :vertical sbp<CR>`"zz
+"endif
 
 inoremap (<CR> ()<Esc>i
 inoremap {<CR> {<CR>}<Esc>O
@@ -98,9 +100,10 @@ map <space> <leader>
 map <C-b> :Buffers<CR>
 map s :Lines<CR>
 map <C-d> :bd<CR>
-map ö }
-map ä {
+map ö 7j
+map ä 7k
 map Y 0y$
+map Z zz
 
 " Toggle Vexplore with Ctrl-E
 function! ToggleVExplorer()
@@ -122,8 +125,7 @@ function! ToggleVExplorer()
   endif
 endfunction
 let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-
+let g:netrw_altv = 1 
 map <silent> <C-e> :call ToggleVExplorer()<CR>
 
 "stty -ixon IS NEEDED FOR C-s binding put in *rc
@@ -138,6 +140,10 @@ nnoremap <C-g> :Rg<space>
 
 nnoremap <C-n> :cn<Cr>
 noremap  <C-p> :cp<Cr>
+nnoremap <C-h> H
+nnoremap <C-m> M
+nnoremap <C-l> L
+nnoremap <C-space> zz
 
  " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -161,10 +167,6 @@ endfunction
 " Remap for format selected region
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-
-
-nnoremap <C-l> :CocList<CR>
-
 
 
 command! Make execute "make " . expand("%") . " | redraw!"
