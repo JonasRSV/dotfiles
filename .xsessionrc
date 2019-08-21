@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Load resources
+
+xrdb -merge .Xresources
+
+# Set up an icon tray
+stalonetray &
+
+# Fire up apps
+
+xscreensaver -no-splash &
+
+# Background image
+feh --bg-scale /home/jonas/dotfiles/coolbg.jpg &
+
+# Power manager in stalonetray
+xfce4-power-manager &
+
+
+if [ -x /usr/bin/nm-applet ] ; then
+   nm-applet --sm-disable &
+fi
+
+sleep 15 && xmodmap ~/.Xmodmap &
+
+exec xmonad

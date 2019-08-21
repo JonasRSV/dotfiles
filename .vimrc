@@ -13,8 +13,6 @@ Plugin 'xolox/vim-notes'
 Plugin 'xolox/vim-misc'
 
 
-Plugin 'neoclide/coc.nvim'
-
 call vundle#end()            " required
 
 " Language Server plugins
@@ -22,8 +20,8 @@ call vundle#end()            " required
 set completeopt=noinsert,menuone,noselect
 
 
-set backupdir=/Users/jonval/.backups
-set directory=/Users/jonval/.backups
+set backupdir=/home/jonas/.backups
+set directory=/home/jonas/.backups
 
 
 let g:disable_vim_auto_close_plugin = 1
