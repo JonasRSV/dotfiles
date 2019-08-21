@@ -79,13 +79,13 @@ syntax on
 filetype plugin indent on
 
 "if has("nvim")
-  "nnoremap <C-space>j :bp<CR>`"zz
-  "nnoremap <C-space>k :bn<CR>`"zz
-  "nnoremap <leader><C-space> :vertical sbp<CR>`"zz
+"nnoremap <C-space>j :bp<CR>`"zz
+"nnoremap <C-space>k :bn<CR>`"zz
+"nnoremap <leader><C-space> :vertical sbp<CR>`"zz
 "else
-  "nnoremap <C-@>j :bp<CR>`"zz
-  "nnoremap <C-@>k :bn<CR>`"zz
-  "map <leader><C-@> :vertical sbp<CR>`"zz
+"nnoremap <C-@>j :bp<CR>`"zz
+"nnoremap <C-@>k :bn<CR>`"zz
+"map <leader><C-@> :vertical sbp<CR>`"zz
 "endif
 
 inoremap (<CR> ()<Esc>i
@@ -108,20 +108,20 @@ map Z zz
 " Toggle Vexplore with Ctrl-E
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
-      let expl_win_num = bufwinnr(t:expl_buf_num)
-      if expl_win_num != -1
-          let cur_win_nr = winnr()
-          exec expl_win_num . 'wincmd w'
-          close
-          exec cur_win_nr . 'wincmd w'
-          unlet t:expl_buf_num
-      else
-          unlet t:expl_buf_num
-      endif
+    let expl_win_num = bufwinnr(t:expl_buf_num)
+    if expl_win_num != -1
+      let cur_win_nr = winnr()
+      exec expl_win_num . 'wincmd w'
+      close
+      exec cur_win_nr . 'wincmd w'
+      unlet t:expl_buf_num
+    else
+      unlet t:expl_buf_num
+    endif
   else
-      exec '1wincmd w'
-      Vexplore
-      let t:expl_buf_num = bufnr("%")
+    exec '1wincmd w'
+    Vexplore
+    let t:expl_buf_num = bufnr("%")
   endif
 endfunction
 let g:netrw_browse_split = 4
@@ -144,8 +144,9 @@ nnoremap <C-h> H
 nnoremap <C-m> M
 nnoremap <C-l> L
 nnoremap <C-space> zz
+nnoremap F gg=G<C-o><C-o>zz
 
- " Remap keys for gotos
+" Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -224,29 +225,29 @@ command! -nargs=1 -complete=custom,BashColors BashColor call WriteColor(<f-args>
 nnoremap tb :TagbarToggle<CR>
 " Golang Tags
 let g:tagbar_type_go = {
-	\ 'ctagstype' : 'go',
-	\ 'kinds'     : [
-		\ 'p:package',
-		\ 'i:imports:1',
-		\ 'c:constants',
-		\ 'v:variables',
-		\ 't:types',
-		\ 'n:interfaces',
-		\ 'w:fields',
-		\ 'e:embedded',
-		\ 'm:methods',
-		\ 'r:constructor',
-		\ 'f:functions'
-	\ ],
-	\ 'sro' : '.',
-	\ 'kind2scope' : {
-		\ 't' : 'ctype',
-		\ 'n' : 'ntype'
-	\ },
-	\ 'scope2kind' : {
-		\ 'ctype' : 't',
-		\ 'ntype' : 'n'
-	\ },
-	\ 'ctagsbin'  : 'gotags',
-	\ 'ctagsargs' : '-sort -silent'
-  \ }
+      \ 'ctagstype' : 'go',
+      \ 'kinds'     : [
+      \ 'p:package',
+      \ 'i:imports:1',
+      \ 'c:constants',
+      \ 'v:variables',
+      \ 't:types',
+      \ 'n:interfaces',
+      \ 'w:fields',
+      \ 'e:embedded',
+      \ 'm:methods',
+      \ 'r:constructor',
+      \ 'f:functions'
+      \ ],
+      \ 'sro' : '.',
+      \ 'kind2scope' : {
+      \ 't' : 'ctype',
+      \ 'n' : 'ntype'
+      \ },
+      \ 'scope2kind' : {
+      \ 'ctype' : 't',
+      \ 'ntype' : 'n'
+      \ },
+      \ 'ctagsbin'  : 'gotags',
+      \ 'ctagsargs' : '-sort -silent'
+      \ }
