@@ -5,7 +5,9 @@ echo "$(cat .landing)"
 alias python="python3"
 alias pip="pip3"
 
-. /usr/local/etc/profile.d/z.sh
+source /home/jonas/plugins/z.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
 function lazy-push {
@@ -23,25 +25,6 @@ alias memory=ncdu
 ## entr command to monitor file changes http://www.entrproject.org/
 
 alias top="htop"
-
-
-
-
-unalias z
-z() {
-  if [[ -z "$*" ]]; then
-    cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
-  else
-    _last_z_args="$@"
-    _z "$@"
-  fi
-}
-
-zz() {
-  cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
-}
-
-
 
 vf() {
   vim $(fzf --preview='head -$LINES {}')
@@ -69,5 +52,19 @@ fs() {
 		| fzf -q '$' --reverse --prompt 'switch session: ' -1 \
 		| cut -d':' -f1 \
 		| xargs tmux switch-client -t
+}
+
+unalias z
+z() {
+  if [[ -z "$*" ]]; then
+    cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
+  else
+    _last_z_args="$@"
+    _z "$@"
+  fi
+}
+
+zz() {
+  cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
 }
 

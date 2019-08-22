@@ -59,9 +59,6 @@ myBorderWidth = 0
 
 ---------------------- Keybindings
 
-myModMask :: KeyMask
-myModMask = mod4Mask
-
 
 mySink :: String
 mySink = "alsa_output.pci-0000_00_1f.3.analog-stereo"
@@ -212,7 +209,6 @@ defaults = def
     -- simple stuff
     terminal      = myTerminal
   , borderWidth   = myBorderWidth
-  , modMask       = myModMask
   , normalBorderColor = myNormalBorderColor
   , focusedBorderColor = myFocusedBorderColor
   , manageHook = manageDocks <+> manageHook defaultConfig
