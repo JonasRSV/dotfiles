@@ -2,6 +2,9 @@
 echo "$(cat .landing)"
 
 
+autoload -U promptinit; promptinit
+prompt pure
+
 alias python="python3"
 alias pip="pip3"
 
