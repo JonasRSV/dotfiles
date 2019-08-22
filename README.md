@@ -9,4 +9,4 @@ sudo ln -s $HOME/dotfiles/pure_async.zsh /usr/local/share/zsh/site-functions/asy
 sudo ln -s $HOME/dotfiles/pure_pure.zsh /usr/local/share/zsh/site-functions/prompt_pure_setup
 
 
-
+https://github.com/zsh-users/zsh-autosuggestions 
