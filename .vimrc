@@ -103,6 +103,13 @@ map ä 7k
 map Y 0y$
 map Z zz
 
+" For syncing clipboard on unix systems with xclip
+map yy yy \| :call system("xclip -selection clipboard -in", @0)<CR>
+map P :-1r !xclip -selection clipboard -o<CR>
+map p :r !xclip -selection clipboard -o<CR>
+
+
+
 " Toggle Vexplore with Ctrl-E
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
@@ -144,13 +151,6 @@ nnoremap <C-l> L
 nnoremap <C-space> zz
 nnoremap F gg=G<C-o><C-o>zz
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
-
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -162,10 +162,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
 
 
 command! Make execute "make " . expand("%") . " | redraw!"

@@ -22,6 +22,4 @@ if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi
 
-sleep 15 && xmodmap ~/.Xmodmap &
-
 exec xmonad

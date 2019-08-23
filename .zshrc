@@ -9,9 +9,10 @@ prompt pure
 source dotfiles/zsh-autosuggestions.zsh
 bindkey '^n' autosuggest-accept
 
-
 alias python="python3"
 alias pip="pip3"
+
+alias l='ls -a'
 
 alias go-home="sudo openvpn --config ~/pivpns/jonas.ovpn"
 

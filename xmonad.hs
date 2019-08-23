@@ -60,10 +60,6 @@ myBorderWidth = 0
 ---------------------- Keybindings
 
 
-mySink :: String
-mySink = "alsa_output.pci-0000_00_1f.3.analog-stereo"
-
-
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@XConfig { modMask } =
   M.fromList
@@ -71,34 +67,6 @@ myKeys conf@XConfig { modMask } =
 
     -- Start the terminal specified by myTerminal variable
         ((modMask, xK_Return), spawn $ XMonad.terminal conf)
-      ,
-
-    -- Mute volume
-        ( (0, xF86XK_AudioMute)
-        , spawn $ "pactl set-sink-mute " ++ mySink ++ " toggle"
-        )
-      ,
-
-    -- Decrease volume
-        ( (0, xF86XK_AudioLowerVolume)
-        , spawn
-        $  "pactl set-sink-mute "
-        ++ mySink
-        ++ " false; pactl set-sink-volume "
-        ++ mySink
-        ++ " -5%"
-        )
-      ,
-
-    -- Increase volume
-        ( (0, xF86XK_AudioRaiseVolume)
-        , spawn
-        $  "pactl set-sink-mute "
-        ++ mySink
-        ++ " false; pactl set-sink-volume "
-        ++ mySink
-        ++ " +5%"
-        )
       ,
 
     -- Decrease brightness
@@ -109,23 +77,10 @@ myKeys conf@XConfig { modMask } =
         ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 10")
       ,
 
-    -- Audio previous
-        ((0, xF86XK_AudioPrev), spawn "playerctl previous")
-      ,
-
-    -- Play/pause
-        ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
-      ,
-
-    -- Audio next
-        ((0, xF86XK_AudioNext), spawn "playerctl next")
-      ,
-
     -- Move to the next empty workspace
         ((modMask, xK_e), moveTo Next EmptyWS)
       , ((modMask .|. mod1Mask, xK_w), toggleHDMI)
       ,
-
 
     -- Move focus to the next window
         ((modMask, xK_Tab), windows W.focusDown)
