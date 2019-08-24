@@ -1,22 +1,24 @@
 
-echo "$(cat .landing)"
+echo "$(cat ~/.landing)"
 
 
 autoload -U promptinit; promptinit
+
 prompt pure
 
 
 source dotfiles/zsh-autosuggestions.zsh
 bindkey '^n' autosuggest-accept
+ZSH_AUTO_SUGGEST_STRATEGY=(history completion)
 
-alias python="python3"
-alias pip="pip3"
-
-alias l='ls -a'
-
-alias go-home="sudo openvpn --config ~/pivpns/jonas.ovpn"
 
 source /home/jonas/plugins/z.sh
+
+# For completion and history search to work nice
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -27,6 +29,12 @@ function lazy-push {
 }
 
 
+alias python="python3"
+alias pip="pip3"
+alias l='ls -a --color=tty'
+alias ls='ls --color=tty'
+alias grep='grep --color=auto '
+alias go-home="sudo openvpn --config ~/pivpns/jonas.ovpn"
 alias vim="nvim"
 alias gitYolo="git add * && git commit -m 'yolomit' && git push -u origin --force"
 alias gitCba=lazy-push
@@ -78,4 +86,9 @@ z() {
 zz() {
   cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
 }
+
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux
+    #tmux attach -t default || tmux new -s default
+fi
 

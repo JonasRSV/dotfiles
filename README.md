@@ -10,3 +10,7 @@ sudo ln -s $HOME/dotfiles/pure_pure.zsh /usr/local/share/zsh/site-functions/prom
 
 
 https://github.com/zsh-users/zsh-autosuggestions 
+
+
+
+linux clipboard needs xclip

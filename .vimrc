@@ -104,9 +104,8 @@ map Y 0y$
 map Z zz
 
 " For syncing clipboard on unix systems with xclip
-map yy yy \| :call system("xclip -selection clipboard -in", @0)<CR>
-map P :-1r !xclip -selection clipboard -o<CR>
-map p :r !xclip -selection clipboard -o<CR>
+map <C-y> yy \| :call system("xclip -selection clipboard -in", @0)<CR>
+map <C-p> :r !xclip -selection clipboard -o<CR>
 
 
 
