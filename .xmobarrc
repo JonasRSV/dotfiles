@@ -1,20 +1,19 @@
-Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+Config { font =  "deva-vu-sans-oblique-mono-9:bold" 
         , borderColor = "black"
-        , border = TopB
+        , border = NoBorder
         , bgColor = "black"
         , fgColor = "grey"
+        , alpha=220 
         , position = TopW L 100
-	, overrideRedirect = True,
-	, allDesktops = True,
-	, hideOnStart = False,
-	, persistent = True,
-        , commands = [ Run Weather "CYVR" ["-t","<tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 36000
-                        , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
-                        , Run Memory ["-t","Mem: <usedratio>%"] 10
-                        , Run Swap [] 10
-                        , Run Com "uname" ["-s","-r"] "" 36000
-                        , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
-			, Run Battery        [ "--template" , "Batt: <acstatus>"
+        , overrideRedirect = True,
+        , allDesktops = True,
+        , hideOnStart = False,
+        , persistent = True,
+        , commands = [ 
+            Run Weather "CYVR" ["-t","<tempC>C","-L","18","-H","25","--normal","green","--high","red","--low","lightblue"] 36000
+          , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+          , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+          , Run Battery        [ "--template" , "Batt: <acstatus>"
                              , "--Low"      , "10"        -- units: %
                              , "--High"     , "80"        -- units: %
                              , "--low"      , "darkred"
@@ -29,25 +28,27 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                                        -- charged status
                                        , "-i"	, "<fc=#006000>Charged</fc>"
                              ] 50
-                        -- network activity monitor (dynamic interface resolution)
-                        , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
-                                             , "--Low"      , "1000"       -- units: B/s
-                                             , "--High"     , "5000"       -- units: B/s
-                                             , "--low"      , "darkgreen"
-                                             , "--normal"   , "darkorange"
-                                             , "--high"     , "darkred"
-                             ] 10
+            -- network activity monitor (dynamic interface resolution)
+            , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
+                                 , "--Low"      , "1000"       -- units: B/s
+                                 , "--High"     , "5000"       -- units: B/s
+                                 , "--low"      , "darkgreen"
+                                 , "--normal"   , "darkorange"
+                                 , "--high"     , "darkred"
+                 ] 10
                        -- cpu core temperature monitor
-                        , Run CoreTemp       [ "--template" , "Temp: <core0>°C|<core1>°C"
-                                             , "--Low"      , "70"        -- units: °C
-                                             , "--High"     , "80"        -- units: °C
-                                             , "--low"      , "darkgreen"
-                                             , "--normal"   , "darkorange"
-                                             , "--high"     , "darkred"
-                                             ] 50
-                        , Run StdinReader
+            , Run CoreTemp       [ "--template" , "Temp: <core0>°C|<core1>°C"
+                                 , "--Low"      , "70"        -- units: °C
+                                 , "--High"     , "80"        -- units: °C
+                                 , "--low"      , "darkgreen"
+                                 , "--normal"   , "darkorange"
+                                 , "--high"     , "darkred"
+                                 ] 50
+
+            , Run Wireless "wlan0" [ "-t", "<essid>" ] 10
+            , Run StdinReader
                         ]
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% | %coretemp% | %battery% | %cpu% | %memory% * %swap%}{ %dynnetwork% | <fc=#ee9a00>%date%</fc> | %CYVR% "
+        , template = "%StdinReader% | %coretemp% | %battery% | %cpu%}{ %dynnetwork% | <fc=#ee9a00>%date%</fc> | %CYVR% "
         }

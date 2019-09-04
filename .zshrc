@@ -38,7 +38,7 @@ alias go-home="sudo openvpn --config ~/pivpns/jonas.ovpn"
 alias vim="nvim"
 alias gitYolo="git add * && git commit -m 'yolomit' && git push -u origin --force"
 alias gitCba=lazy-push
-alias find=fd
+#alias find=fd
 alias memory=ncdu
 
 ## entr command to monitor file changes http://www.entrproject.org/

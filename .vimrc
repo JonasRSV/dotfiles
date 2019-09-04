@@ -9,9 +9,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'majutsushi/tagbar'
-Plugin 'xolox/vim-notes'
-Plugin 'xolox/vim-misc'
-
+Plugin 'lfv89/vim-interestingwords'
 
 call vundle#end()            " required
 
@@ -151,18 +149,6 @@ nnoremap <C-space> zz
 nnoremap F gg=G<C-o><C-o>zz
 
 
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-
 command! Make execute "make " . expand("%") . " | redraw!"
 command! RgSearchWord execute "Rg " . expand("<cword>") 
 
@@ -244,3 +230,14 @@ let g:tagbar_type_go = {
       \ 'ctagsbin'  : 'gotags',
       \ 'ctagsargs' : '-sort -silent'
       \ }
+
+let g:tagbar_type_armasm = {
+    \ 'ctagsbin'  : 'ctags',
+    \ 'ctagsargs' : '-f- --format=2 --excmd=pattern --fields=nksSa --extra= --sort=no --language-force=asm',
+    \ 'kinds' : [
+        \ 'm:macros:0:1',
+        \ 't:types:0:1',
+        \ 'd:defines:0:1',
+        \ 'l:labels:0:1'
+    \ ]
+\}
