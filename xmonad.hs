@@ -27,6 +27,25 @@ import qualified XMonad.StackSet as W
 import XMonad.Util.Cursor
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.WorkspaceCompare
+import qualified XMonad.StackSet as W
+import Control.Monad
+import Data.Bool  (bool)
+import XMonad.Util.EZConfig
+import XMonad.Actions.WindowGo
+import XMonad.Actions.GroupNavigation
+
+--- Util functions
+findWindows :: String -> X [Window]
+findWindows name = do
+  withWindowSet $ (\ws -> do
+    forM (W.allWindows ws)
+      (\w -> do
+            s <- withDisplay $ \d -> fmap resClass . liftIO $ getClassHint d w
+            return $ bool [] [w] (s == name) :: X [Window]
+      ) >>= return . join
+    )
+
+--- 
 
 myTerminal :: String
 myTerminal = "termite"
@@ -57,68 +76,23 @@ myBorderWidth :: Dimension
 myBorderWidth = 0
 
 
----------------------- Keybindings
-
-
-myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-myKeys conf@XConfig { modMask } =
-  M.fromList
-    $ [
-
-    -- Start the terminal specified by myTerminal variable
-        ((modMask, xK_Return), spawn $ XMonad.terminal conf)
-      ,
-
-    -- Decrease brightness
-        ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 10")
-      ,
-
-    -- Increase brightness
-        ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 10")
-      ,
-
-    -- Move to the next empty workspace
-        ((modMask, xK_e), moveTo Next EmptyWS)
-      , ((modMask .|. mod1Mask, xK_w), toggleHDMI)
-      ,
-
-    -- Move focus to the next window
-        ((modMask, xK_Tab), windows W.focusDown)
-      ,
-
-    -- Move focus to the next window
-        ((modMask, xK_j), windows W.focusDown)
-      ,
-
-    -- Move focus to the previous window
-        ((modMask, xK_k), windows W.focusUp)
-      ,
-
-    -- Move focus to the master window
-        ((modMask, xK_m), windows W.focusMaster)
-      ,
-
-    -- Swap the focused window and the master window
-        ((modMask .|. shiftMask, xK_Return), windows W.swapMaster)
-      ,
-
-    -- Quit xmonad
-        ((modMask .|. shiftMask, xK_q), io exitSuccess)
-      ,
-
-    -- Restart xmonad
-        ((modMask, xK_q), restart "xmonad" True)
-      ]
-
-
-toggleHDMI :: X ()
-toggleHDMI = do
-  (count :: Int) <- countScreens
-  spawn $ "echo " ++ show count ++ " >> ~/test.txt"
-  if count > 1
-    then spawn "xrandr --output HDMI1 --off"
-    else spawn "sleep 0.3; xrandr --output HDMI1 --auto --right-of eDP1"
-
+myWorkspaces :: [String]
+myWorkspaces = workspaceLabels
+ where
+  workspaceLabels = zipWith makeLabel [1 .. 10 :: Int] icons
+  makeLabel index icon = (show index) ++ " " ++ icon
+  icons =
+    [ "∞"
+    , ""
+    , ""
+    , "✉"
+    , ""
+    , ""
+    , ""
+    , ""
+    , ""
+    , ""
+    ]
 
 ------------------------- Startup
 
@@ -129,8 +103,6 @@ myStartupHook =
     <+> setDefaultCursor xC_left_ptr
     <+> spawn "hsetroot -solid '#D6D6D6'"
     <+> spawn "xsetroot -cursor_name left_ptr"
-    <+> spawn "xrandr --output HDMI1 --off"
-    <+> spawn "xrandr --output HDMI1 --auto --right-of eDP1"
     <+> setWMName "LG3D"
 
 
@@ -146,16 +118,22 @@ myLogHook xmproc =
     , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
     , ppSep     = "   "
     })
+    <+> historyHook
 
 
 
 ---------------------- Run xmonad
 
-
 main :: IO ()
 main = do
   xmproc <- spawnPipe "xmobar"
-  xmonad . docks . E.ewmh $ defaults { logHook = myLogHook xmproc }
+  xmonad . docks . E.ewmh $ defaults { logHook = myLogHook xmproc } `additionalKeysP` [ 
+          ("M-e", moveTo Next EmptyWS)
+        --, ("M-m", runspawn "mailspring")
+        , ("M-m", runOrRaise "mailspring" (className=? "mailspring"))
+        , ("M-w", raiseBrowser)
+        , ("M-b", nextMatch History (return True))
+      ]
 
 --------------------- Combine
 
@@ -169,9 +147,8 @@ defaults = def
   , manageHook = manageDocks <+> manageHook defaultConfig
 
     -- key bindings
-  --, keys = myKeys
-
     -- hooks, layouts
+  , workspaces    = myWorkspaces
   , layoutHook    = myLayout
   , startupHook   = myStartupHook
   , handleEventHook = E.fullscreenEventHook --handleEventHook defaultConfig <+> docksEventHook

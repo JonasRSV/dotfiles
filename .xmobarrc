@@ -1,4 +1,4 @@
-Config { font =  "deva-vu-sans-oblique-mono-9:bold" 
+Config { font =  "xft:SFNS Display:size=10,FontAwesome:size=10" --"Deja Vu Sans Oblique Mono" 
         , borderColor = "black"
         , border = NoBorder
         , bgColor = "black"
@@ -45,9 +45,8 @@ Config { font =  "deva-vu-sans-oblique-mono-9:bold"
                                  , "--high"     , "darkred"
                                  ] 50
 
-            , Run Wireless "wlan0" [ "-t", "<essid>" ] 10
             , Run StdinReader
-                        ]
+				]
         , sepChar = "%"
         , alignSep = "}{"
         , template = "%StdinReader% | %coretemp% | %battery% | %cpu%}{ %dynnetwork% | <fc=#ee9a00>%date%</fc> | %CYVR% "
