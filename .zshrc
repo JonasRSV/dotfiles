@@ -1,6 +1,7 @@
 
 echo "$(cat ~/.landing)"
 
+for file in ~/scripts/*; do source $file; done
 
 autoload -U promptinit; promptinit
 
@@ -26,6 +27,11 @@ setopt appendhistory
 function lazy-push {
   message=$(curl https://whatthecommit.com/ | cat | grep '<p>' | cut -c 4-)
   git add . && git commit -m $message && git push
+}
+
+function cr {
+  c++ $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
+
 }
 
 

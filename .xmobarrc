@@ -49,5 +49,5 @@ Config { font =  "xft:SFNS Display:size=10,FontAwesome:size=10" --"Deja Vu Sans 
 				]
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% | %coretemp% | %battery% | %cpu%}{ %dynnetwork% | <fc=#ee9a00>%date%</fc> | %CYVR% "
+        , template = "%StdinReader% | %coretemp% | %battery% | %cpu% | %dynnetwork%}{  <fc=#ee9a00>%date%</fc> | %CYVR% "
         }

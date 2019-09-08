@@ -9,6 +9,7 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'majutsushi/tagbar'
+Plugin 'gabrielsimoes/cfparser.vim'
 
 call vundle#end()            " required
 
