@@ -27,7 +27,6 @@ import qualified XMonad.StackSet as W
 import XMonad.Util.Cursor
 import XMonad.Util.Run (spawnPipe)
 import XMonad.Util.WorkspaceCompare
-import qualified XMonad.StackSet as W
 import Control.Monad
 import Data.Bool  (bool)
 import XMonad.Util.EZConfig
@@ -79,18 +78,19 @@ myBorderWidth = 0
 myWorkspaces :: [String]
 myWorkspaces = workspaceLabels
  where
-  workspaceLabels = zipWith makeLabel [1 .. 10 :: Int] icons
-  makeLabel index icon = (show index) ++ " " ++ icon
+  workspaceLabels = icons
+  --workspaceLabels = zipWith makeLabel [1 .. 10 :: Int] icons
+  --makeLabel index icon = (show index) ++ " " ++ icon
   icons =
-    [ "∞"
-    , ""
-    , ""
-    , "✉"
-    , ""
-    , ""
-    , ""
-    , ""
-    , ""
+    [ "∞ home"
+    , "☃ random"
+    , "♡ ide"
+    , "✉ mail"
+    , "★ notes"
+    , "6 "
+    , "7 "
+    , "☄ terminal"
+    , "☢ status"
     , ""
     ]
 
@@ -128,11 +128,18 @@ main :: IO ()
 main = do
   xmproc <- spawnPipe "xmobar"
   xmonad . docks . E.ewmh $ defaults { logHook = myLogHook xmproc } `additionalKeysP` [ 
-          ("M-e", moveTo Next EmptyWS)
-        --, ("M-m", runspawn "mailspring")
-        , ("M-m", runOrRaise "mailspring" (className=? "mailspring"))
+          ("M-m", do
+                    windows $ W.view "✉ mail"
+                    runOrRaise "mailspring" (className=? "mailspring"))
+        , ("M-n", do
+                    windows $ W.view "★ notes"
+                    runOrRaise "boostnote" (className=? "Boostnote"))
         , ("M-w", raiseBrowser)
-        , ("M-b", nextMatch History (return True))
+        , ("M-e", nextMatch History (return True))
+        , ("M-c", spawn "google-chrome https://calendar.google.com/calendar/r")
+        , ("M-q", windows $ W.view "♡ ide")
+        , ("M-s", windows $ W.view "☢ status")
+        , ("M-t", windows $ W.view "☄ terminal")
       ]
 
 --------------------- Combine

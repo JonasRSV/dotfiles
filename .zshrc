@@ -1,5 +1,5 @@
 
-echo "$(cat ~/.landing)"
+echo "$(envsubst < ~/.landing)"
 
 for file in ~/scripts/*; do source $file; done
 
@@ -99,3 +99,9 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     #tmux attach -t default || tmux new -s default
 fi
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/jonas/google-cloud-sdk/path.zsh.inc' ]; then . '/home/jonas/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/jonas/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/jonas/google-cloud-sdk/completion.zsh.inc'; fi

@@ -10,7 +10,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'majutsushi/tagbar'
 Plugin 'gabrielsimoes/cfparser.vim'
-
+Plugin 'udalov/kotlin-vim'
 call vundle#end()            " required
 
 " Language Server plugins
