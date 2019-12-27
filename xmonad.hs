@@ -87,10 +87,10 @@ myWorkspaces = workspaceLabels
     , "♡ ide"
     , "✉ mail"
     , "★ notes"
-    , "6 "
+    , "☸ coms"
     , "7 "
     , "☄ terminal"
-    , "☢ status"
+    , "☢ spotify"
     , ""
     ]
 
@@ -130,15 +130,20 @@ main = do
   xmonad . docks . E.ewmh $ defaults { logHook = myLogHook xmproc } `additionalKeysP` [ 
           ("M-m", do
                     windows $ W.view "✉ mail"
-                    runOrRaise "mailspring" (className=? "mailspring"))
+                    runOrRaise "mailspring" (className=? "Mailspring"))
         , ("M-n", do
                     windows $ W.view "★ notes"
                     runOrRaise "boostnote" (className=? "Boostnote"))
         , ("M-w", raiseBrowser)
-        , ("M-e", nextMatch History (return True))
-        , ("M-c", spawn "google-chrome https://calendar.google.com/calendar/r")
-        , ("M-q", windows $ W.view "♡ ide")
-        , ("M-s", windows $ W.view "☢ status")
+        , ("M-q", nextMatch History (return True))
+        , ("M-c", do
+                 windows $ W.view "☸ coms"
+                 runOrRaise "slack" (className=? "Slack"))
+        , ("M-e", windows $ W.view "♡ ide")
+        , ("M-s", do 
+                windows $ W.view "☢ spotify"
+                runOrRaise "spotify" (className=? "Spotify")
+                )
         , ("M-t", windows $ W.view "☄ terminal")
       ]
 
