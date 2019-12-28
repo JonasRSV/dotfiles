@@ -56,7 +56,7 @@ alias l='ls -a --color=tty'
 alias ls='ls --color=tty'
 alias grep='grep --color=auto '
 alias go-home="sudo openvpn --config ~/pivpns/jonas.ovpn"
-alias vim="nvim"
+alias vim="nvim.appimage"
 alias gitYolo="git add * && git commit -m 'yolomit' && git push -u origin --force"
 alias gitCba=lazy-push
 #alias find=fd

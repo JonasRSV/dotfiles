@@ -51,7 +51,7 @@ myTerminal = "termite"
 
 ---------------- Layout
 
-myLayout = avoidStruts (mySpacing (Tall 1 (3 / 100) (1 / 2)))
+myLayout = avoidStruts (mySpacing (Tall 1 (3 / 100) (2 / 3)))
   ||| fullscreenFull Full
  where
   mySpacing = spacingRaw False (Border 8 8 8 8) True (Border 0 0 0 0) False .
@@ -145,6 +145,7 @@ main = do
                 runOrRaise "spotify" (className=? "Spotify")
                 )
         , ("M-t", windows $ W.view "☄ terminal")
+        , ("M-<F10>", spawn "shutter")
       ]
 
 --------------------- Combine

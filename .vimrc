@@ -1,5 +1,6 @@
 set rtp+=~/.vim/bundle/Vundle.vim
 
+
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 
@@ -11,7 +12,17 @@ Plugin 'junegunn/fzf'
 Plugin 'majutsushi/tagbar'
 Plugin 'gabrielsimoes/cfparser.vim'
 Plugin 'udalov/kotlin-vim'
+Plugin 'neovim/nvim-lsp'
 call vundle#end()            " required
+
+lua << EOF
+local nvim_lsp = require'nvim_lsp'
+nvim_lsp.bashls.setup{}
+nvim_lsp.clangd.setup{}
+nvim_lsp.dockerls.setup{}
+EOF
+
+set omnifunc=v:lua.vim.lsp.omnifunc
 
 " Language Server plugins
 
@@ -94,7 +105,7 @@ inoremap [, [],<Esc>i<Esc>i
 
 map <space> <leader>
 map <C-b> :Buffers<CR>
-map s :Lines<CR>
+map s /
 map <C-d> :bd<CR>
 map ö 7j
 map ä 7k
@@ -149,11 +160,17 @@ nnoremap <C-space> zz
 nnoremap F gg=G<C-o><C-o>zz
 
 
+"LSP keymaps
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+
+
 command! Make execute "make " . expand("%") . " | redraw!"
 command! RgSearchWord execute "Rg " . expand("<cword>") 
 
-
-command! Vterm execute "vsplit |term"
 
 au FileType netrw setl bufhidden=delete
 au FileType python set equalprg=yapf
