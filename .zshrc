@@ -1,6 +1,9 @@
 export LOCAL_IP=$(ifconfig wlp58s0 | grep -m 1 inet | awk '{print $2}')
 export PUBLIC_IP=$(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short)
 
+export PATH=/usr/local/clang_9.0.0/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/clang_9.0.0/lib:$LD_LIBRARY_PATH
+
 echo "$(envsubst < ~/.landing)"
 
 for file in ~/dotfiles/scripts/*; do source $file; done
@@ -33,11 +36,11 @@ function lazy-push {
 }
 
 function cr {
-  c++ -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
+  clang++ -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
 }
 
 function crp {
-  c++ -O2 -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
+  clang++ -O2 -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
 }
 
 function hrp {
@@ -128,3 +131,5 @@ export VISUAL=vim
 local-port-scan() {
   sudo nmap -vv --reason --open --privileged -sS -F ${LOCAL_IP%.*}.0/24
 }
+
+
