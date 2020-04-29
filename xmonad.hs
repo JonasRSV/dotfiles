@@ -51,11 +51,24 @@ myTerminal = "termite"
 
 ---------------- Layout
 
-myLayout = avoidStruts (mySpacing (Tall 1 (3 / 100) (2 / 3)))
-  ||| fullscreenFull Full
- where
-  mySpacing = spacingRaw False (Border 8 8 8 8) True (Border 0 0 0 0) False .
-    spacingRaw True (Border 8 8 8 8) False (Border 8 8 8 8) True
+--chillMulti = avoidStruts (spacing (Tall nmaster rincrement mratio))
+  --where 
+    --spacing = spacingRaw True (Border 40 40 20 20) True (Border 8 8 40 40) True
+    --nmaster = 2
+    --rincrement = 3 / 100
+    --mratio = 2 / 3
+
+defaultMultiWindow = avoidStruts (spacing (Tall nmaster rincrement mratio))
+  where
+    spacing = spacingRaw True (Border 8 8 8 8) True (Border 8 8 8 8) True
+    nmaster = 1
+    rincrement = 3 / 100
+    mratio = 2 / 3
+
+
+
+myLayout = defaultMultiWindow ||| fullscreenFull Full
+
 
 
 -------------- Colors and borders
@@ -88,7 +101,7 @@ myWorkspaces = workspaceLabels
     , "✉ mail"
     , "★ notes"
     , "☸ coms"
-    , "7 "
+    , "∇ remote"
     , "☄ terminal"
     , "☢ spotify"
     , ""
@@ -103,6 +116,7 @@ myStartupHook =
     <+> setDefaultCursor xC_left_ptr
     <+> spawn "hsetroot -solid '#D6D6D6'"
     <+> spawn "xsetroot -cursor_name left_ptr"
+    <+> spawn "albert"
     <+> setWMName "LG3D"
 
 
@@ -131,20 +145,20 @@ main = do
           ("M-m", do
                     windows $ W.view "✉ mail"
                     runOrRaise "mailspring" (className=? "Mailspring"))
-        , ("M-n", do
-                    windows $ W.view "★ notes"
-                    runOrRaise "boostnote" (className=? "Boostnote"))
+        , ("M-n", do 
+                    windows $ W.view "★ notes")
         , ("M-w", raiseBrowser)
+        --, ("M-p", spawn "python3.8 /home/jonas/dev/private/dmenu/pymenu.py")
         , ("M-q", nextMatch History (return True))
         , ("M-c", do
-                 windows $ W.view "☸ coms"
-                 runOrRaise "slack" (className=? "Slack"))
+                 windows $ W.view "☸ coms")
         , ("M-e", windows $ W.view "♡ ide")
         , ("M-s", do 
                 windows $ W.view "☢ spotify"
                 runOrRaise "spotify" (className=? "Spotify")
                 )
         , ("M-t", windows $ W.view "☄ terminal")
+        , ("M-r", windows $ W.view "∇ remote")
         , ("M-<F10>", spawn "shutter")
       ]
 

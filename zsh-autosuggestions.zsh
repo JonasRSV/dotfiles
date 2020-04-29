@@ -89,15 +89,16 @@ typeset -g ZSH_AUTOSUGGEST_ORIGINAL_WIDGET_PREFIX=autosuggest-orig-
 	typeset -ga ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS
 	ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
 		forward-word
-		emacs-forward-word
-		vi-forward-word
-		vi-forward-word-end
-		vi-forward-blank-word
-		vi-forward-blank-word-end
-		vi-find-next-char
-		vi-find-next-char-skip
 	)
 }
+
+#emacs-forward-word
+#vi-forward-word
+#vi-forward-word-end
+#vi-forward-blank-word
+#vi-forward-blank-word-end
+#vi-find-next-char
+#vi-find-next-char-skip
 
 # Widgets that should be ignored (globbing supported but must be escaped)
 (( ! ${+ZSH_AUTOSUGGEST_IGNORE_WIDGETS} )) && {
@@ -478,6 +479,7 @@ _zsh_autosuggest_partial_accept() {
 	zle -N autosuggest-enable _zsh_autosuggest_widget_enable
 	zle -N autosuggest-disable _zsh_autosuggest_widget_disable
 	zle -N autosuggest-toggle _zsh_autosuggest_widget_toggle
+  zle -N autosuggest-partial_accept _zsh_autosuggest_partial_accept
 }
 
 #--------------------------------------------------------------------#

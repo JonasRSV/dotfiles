@@ -1,4 +1,5 @@
-Config { font =  "xft:SFNS Display:size=10,FontAwesome:size=10" --"Deja Vu Sans Oblique Mono" 
+Config { font = "xft:SFNS Display:size=10,FontAwesome:size=10"
+
         , borderColor = "black"
         , border = NoBorder
         , bgColor = "black"

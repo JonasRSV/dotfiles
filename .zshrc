@@ -1,5 +1,6 @@
 export LOCAL_IP=$(ifconfig wlp58s0 | grep -m 1 inet | awk '{print $2}')
-export PUBLIC_IP=$(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short)
+#export PUBLIC_IP=$(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short)
+export UPTIME="$(cat /proc/uptime | awk '{print $2}')"
 
 export PATH=/usr/local/clang_9.0.0/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/clang_9.0.0/lib:$LD_LIBRARY_PATH
@@ -15,7 +16,7 @@ prompt pure
 # pavucontrol (For pulse audio!!) bluetoothctl to connect to headset!! (pacmd for other stuff!!)
 
 source ~/dotfiles/zsh-autosuggestions.zsh
-bindkey '^n' autosuggest-accept
+bindkey '^n' forward-word
 ZSH_AUTO_SUGGEST_STRATEGY=(history completion)
 
 
@@ -51,7 +52,13 @@ function hr {
   ghc -o haskell-script $1 && ./haskell-script $2 $3 $4 $5 && rm haskell-script
 }
 
+function search {
+  find $1 2>&1 | grep -v "Permission Denied" | grep $2 | fzf -m --ansi --preview='bat --theme="OneHalfDark" --style=numbers,changes --color always {}'
+}
 
+
+alias gpu-ssh="ssh 192.168.10.131 -i ~/.ssh/gpubot_rsa"
+alias sr=search
 alias ipy="ipython --profile J"
 alias python="python3"
 #alias pip="pip3"
@@ -66,12 +73,14 @@ alias gitCba=lazy-push
 alias memory=ncdu
 alias xd=xdg-open
 
-## entr command to monitor file changes http://www.entrproject.org/
+function preview {
+ gv -widgetless -spartan -watch -antialias $1 &
+}
 
 alias top="htop"
 
 vf() {
-  vim $(fzf --preview='head -$LINES {}')
+  vim $(sr . ".*")
 }
 
 
@@ -132,4 +141,21 @@ local-port-scan() {
   sudo nmap -vv --reason --open --privileged -sS -F ${LOCAL_IP%.*}.0/24
 }
 
+
+monitor-http-data() {
+  sudo tshark -Tfields -e http.file_data
+}
+
+
+monitor-http-meta() {
+  sudo tshark -Y 'http.request.method == "PUT" || http.request.method == "GET" || http.request.method == "POST"' -Tfields -e frame.time -e ip.src -e ip.dst -e http.request.method -e http.request.full_uri -e http.content_type
+}
+
+alias copilot="./.local/share/kite/current/linux-unpacked/kite &"
+
+
+# Install 
+# Install Ruby Gems to ~/gems
+export GEM_HOME="$HOME/.config/gems"
+export PATH="$HOME/.config/gems/bin:$PATH"
 
