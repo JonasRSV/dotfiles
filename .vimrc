@@ -85,6 +85,9 @@ set shiftwidth=2  "tab width"
 set expandtab "Convert tab to spaces"
 set ai "Keeps indentation from last line"
 
+" window splits are automatically on right now
+set splitright
+
 "autocmd BufReadPre,BufNewFile * let b:did_ftplugin = 1
 
 set termguicolors
@@ -133,7 +136,7 @@ map Z zz
 
 "stty -ixon IS NEEDED FOR C-s binding put in *rc
 nnoremap gw :RgSearchWord<CR>
-nnoremap <F2> :silent! Make<CR>
+nnoremap <leader><F10> :silent! Make<CR>
 
 highlight QuickFixLine term=bold,underline cterm=bold,underline gui=bold,underline
 highlight Folded guibg=#3a3c3f guifg=#c0c4ce
@@ -144,6 +147,8 @@ nnoremap <C-g> :Rg<CR>
 nnoremap F gg=G<C-o><C-o>zz
 nnoremap <C-b> :Buffers<CR>
 nnoremap <C-space> @:
+nnoremap <C-j> :cnext<CR>
+nnoremap <C-k> :cprev<CR>
 
 
 "LSP keymaps
@@ -151,17 +156,20 @@ nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 
 
-command! Make execute "make " . expand("%") . " | redraw!"
+command! Make execute "make " . expand("%") . " | redraw! | vertical cope | vertical resize 100 | wincmd p"
 command! RgSearchWord execute "Rg " . expand("<cword>") 
 
 
 au FileType netrw setl bufhidden=delete
-au FileType python set equalprg=yapf
 au FileType go set equalprg=gofmt
 au FileType javascript set equalprg=standard\ --stdin\ --fix
+
+au FileType python set makeprg=python3\ %
+au FileType python set equalprg=yapf
+au FileType python compiler python
+au FileType python nnoremap <F10> :silent exec "!python3 %"<CR>
 
 
 func RenderTex()

@@ -5,6 +5,8 @@ export UPTIME="$(cat /proc/uptime | awk '{print $2}')"
 export PATH=/usr/local/clang_9.0.0/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/clang_9.0.0/lib:$LD_LIBRARY_PATH
 
+export PYTHONPATH=/home/jonas/scripts:$PYTHONPATH
+
 echo "$(envsubst < ~/.landing)"
 
 for file in ~/dotfiles/scripts/*; do source $file; done
@@ -158,4 +160,13 @@ alias copilot="./.local/share/kite/current/linux-unpacked/kite &"
 # Install Ruby Gems to ~/gems
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
+
+
+quickpy () {
+  cd ~/tmp
+  id=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+  mkdir $id
+  cd $id
+  vim $id.py
+}
 

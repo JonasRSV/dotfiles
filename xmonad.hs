@@ -33,6 +33,7 @@ import XMonad.Util.EZConfig
 import XMonad.Actions.WindowGo
 import XMonad.Actions.GroupNavigation
 
+
 --- Util functions
 findWindows :: String -> X [Window]
 findWindows name = do
@@ -100,7 +101,7 @@ myWorkspaces = workspaceLabels
     , "♡ ide"
     , "✉ mail"
     , "★ notes"
-    , "☸ coms"
+    , "☸ scratchpad"
     , "∇ remote"
     , "☄ terminal"
     , "☢ spotify"
@@ -147,11 +148,12 @@ main = do
                     runOrRaise "mailspring" (className=? "Mailspring"))
         , ("M-n", do 
                     windows $ W.view "★ notes")
-        , ("M-w", raiseBrowser)
-        --, ("M-p", spawn "python3.8 /home/jonas/dev/private/dmenu/pymenu.py")
+        , ("M-w", windows $ W.view "∞ home")
+        , ("M-p", spawn "sh /home/jonas/.config/lighthouse/lighthouse.sh")
         , ("M-q", nextMatch History (return True))
         , ("M-c", do
-                 windows $ W.view "☸ coms")
+                 windows $ W.view "☸ scratchpad")
+
         , ("M-e", windows $ W.view "♡ ide")
         , ("M-s", do 
                 windows $ W.view "☢ spotify"
