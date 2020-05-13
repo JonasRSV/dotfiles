@@ -1,0 +1,172 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{scrextend}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{hyperref}
+
+% For setting margins
+\usepackage[margin=2in]{geometry}
+
+
+\definecolor{codeColor}{HTML}{eeeeee}
+\definecolor{keyWord}{HTML}{008800}
+\definecolor{variable}{HTML}{880000}
+\definecolor{CommentColor}{HTML}{aaaaaa}
+\definecolor{StrColor}{HTML}{000088}
+
+\graphicspath{{.}}
+
+\usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\lstset{backgroundcolor=\color{codeColor}, 
+        basicstyle=\fontfamily{pcr}\selectfont\footnotesize\color{variable},
+        commentstyle=\color{CommentColor},
+        stringstyle=\color{StrColor},
+        breaklines=true, 
+        framerule=10pt, 
+        frame=single, 
+        rulecolor=\color{codeColor}}
+
+\title{Lecture}
+\date{}
+\author{Jonas Valfridsson}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\newpage  
+
+\section{The DFS}
+
+The infamous infinite recursive depth first search.
+
+\begin{lstlisting}[language=python]
+def depth_first_search(node, target):
+  if node.id == target.id:
+    return target
+
+  target = None
+  for child in node.children:
+    target = depth_first_search(child, target)
+
+  return target
+\end{lstlisting}
+
+\noindent Potential hazards
+\begin{enumerate}
+  \item Infinite loops
+  \item A lot of double checking
+\end{enumerate}
+
+\noindent How to resolve? Keep track of what we've seen!
+
+
+\begin{lstlisting}[language=python]
+memory = set()
+def depth_first_search(node, target):
+  if node.id == target.id:
+    return target
+
+  target = None
+  for child in node.children:
+    if child in memory:
+      continue
+
+    memory.add(child)
+
+    target = depth_first_search(child, target)
+
+  return target
+\end{lstlisting}
+
+
+\newpage 
+
+\section{The Tikz}%
+\label{sec:the_tikz}
+
+%Resource for tikz
+%\href{https://cremeronline.com/LaTeX/minimaltikz.pdf}[Resource]
+
+\begin{figure}[htpb]
+\begin{center}
+\begin{tikzpicture}[scale=0.5, transform shape]
+  \draw (0, 4) -- (1, 6) -- (2, 4) -- (0, 4);
+  \draw [<-](0, 0) --(0, 2);
+  \draw [->] (1, 0) -- (1, 2);
+  \draw [<-|] (2, 0) -- (2, 2);
+  \draw [<->] (3, 0) -- (3, 2);
+  \draw [ultra thick] (4, 0) -- (4, 2);
+  \draw [thick] (5, 0) -- (5, 2);
+  \draw [thin] (6, 0) -- (6, 2);
+  \draw [line width=12] (7, 0) -- (7, 2);
+  \draw [dashed, ultra thick] (8, 0) -- (8, 2);
+  \draw [dotted, thin] (9, 0) -- (9, 2);
+  \draw [red, dashed, ultra thick] (10, 0) -- (10, 2);
+\end{tikzpicture}
+\end{center}
+\caption{Lines}%
+\label{fig:}
+\end{figure}
+
+
+\begin{figure}[htpb]
+\begin{center}
+\begin{tikzpicture}[scale=0.5, transform shape]
+  \draw [blue] (0, 0) rectangle (1.5, 1);
+  \draw [red, fill, ultra thick] (3,0.5) circle [radius=0.5];
+\end{tikzpicture}
+\end{center}
+\caption{Shapes}%
+\label{fig:}
+\end{figure}
+
+
+\begin{figure}[htpb]
+\begin{center}
+\begin{tikzpicture}[scale=0.5, transform shape]
+  \draw[very thick] (0, 0) to [out=90, in=195] (2, 1.5)
+    to [out=0, in=210] (1, 0);
+\end{tikzpicture}
+\end{center}
+\caption{Curves}%
+\label{fig:}
+\end{figure}
+
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[yscale=1.5]
+\draw [help lines, <->] (0,0) -- (6.5,0);
+\draw [help lines, ->] (0,-1.1) -- (0,1.1);
+\draw [green,domain=0:2*pi] plot (\x, {(sin(\x r)* ln(\x+1))/2});
+\draw [red,domain=0:pi] plot (\x, {sin(\x r)});
+\draw [blue, domain=0:2*pi] plot (\x, {cos(\x r)*exp(\x/exp(2*pi))});
+\end{tikzpicture}
+\end{center}
+\caption{Plot}%
+\label{fig:}
+\end{figure}
+
+
+
+\begin{thebibliography}{1}
+
+\bibitem{key} John Doe {\em Title and stuff}  2013.
+
+\end{thebibliography}
+
+\end{document}
+
+
+
