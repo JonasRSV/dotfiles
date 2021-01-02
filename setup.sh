@@ -71,6 +71,8 @@ else
   echo "${fg_magenta} $PROFILE_PATH already exists - skipping... ${reset}"
 fi
 
+echo "${fg_green}$ Setting zsh to default ${reset}"
+chsh -s $(which zsh)
 
 
 echo "${fg_green} Setting up for neovim ${reset}"
