@@ -221,8 +221,6 @@ then
 fi
 
 EWW_PATH=$HOME/.config/eww
-mkdir -p $EWW_PATH
-
 if [ ! -f $EWW_PATH/eww.xml ]; then
   echo "${fg_green} Linking $HOME/dotfiles/eww -> $EWW_PATH ${reset}"
   ln -s $HOME/dotfiles/eww $EWW_PATH
