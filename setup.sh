@@ -63,6 +63,16 @@ then
 fi
 
 
+PROFILE_PATH=$HOME/.profile
+if [ ! -f $PROFILE_PATH ]; then
+  echo "${fg_green} Linking $HOME/dotfiles/.profile -> $PROFILE_PATH ${reset}"
+  sudo ln -s $HOME/dotfiles/.profile $PROFILE_PATH 
+else
+  echo "${fg_magenta} $PROFILE_PATH already exists - skipping... ${reset}"
+fi
+
+
+
 echo "${fg_green} Setting up for neovim ${reset}"
 
 if ! command -v nvim && ! command -v nvim.appimage
