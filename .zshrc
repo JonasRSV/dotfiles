@@ -65,7 +65,6 @@ function sudosearch {
 }
 
 
-alias vim-journal="vim +Goyo +$JOURNAL_VIM_THEME $(find $HOME/.journal | grep -Po '.*\d+.*\.journal' | tr '\n' ' ')"
 alias ssh-gpu="ssh 192.168.1.10 -i ~/.ssh/gpubot_rsa"
 alias ssh-gcloud-friday='gcloud beta compute ssh --zone "europe-north1-a" "friday-recordings" --project "seventh-atom-291111"'
 alias ssh-gpu-gui="ssh -Y 192.168.1.10 -i ~/.ssh/gpubot_rsa" 
