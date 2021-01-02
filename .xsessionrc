@@ -4,17 +4,11 @@
 
 xrdb -merge .Xresources
 
-# Set up an icon tray
-stalonetray &
-
 # Fire up apps
 
 xscreensaver -no-splash &
 
-# Background image
-feh --bg-scale /home/jonas/dotfiles/coolbg.jpg &
-
-# Power manager in stalonetray
+# Power manager in xmobar
 xfce4-power-manager &
 
 
@@ -23,3 +17,4 @@ if [ -x /usr/bin/nm-applet ] ; then
 fi
 
 exec xmonad
+

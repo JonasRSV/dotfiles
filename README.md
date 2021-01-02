@@ -1,4 +1,3 @@
-xmonad needs compton
 
 Need to link the pure and async files
 

@@ -64,7 +64,7 @@ defaultMultiWindow = avoidStruts (spacing (Tall nmaster rincrement mratio))
     spacing = spacingRaw True (Border 8 8 8 8) True (Border 8 8 8 8) True
     nmaster = 1
     rincrement = 3 / 100
-    mratio = 2 / 3
+    mratio = 1 / 2
 
 
 
@@ -96,12 +96,12 @@ myWorkspaces = workspaceLabels
   --workspaceLabels = zipWith makeLabel [1 .. 10 :: Int] icons
   --makeLabel index icon = (show index) ++ " " ++ icon
   icons =
-    [ "∞ home"
+      [ "∞ woo"
     , "☃ random"
     , "♡ ide"
     , "✉ mail"
     , "★ notes"
-    , "☸ scratchpad"
+    , "☸ chat"
     , "∇ remote"
     , "☄ terminal"
     , "☢ spotify"
@@ -155,13 +155,12 @@ main = do
                  windows $ W.view "☸ scratchpad")
 
         , ("M-e", windows $ W.view "♡ ide")
-        , ("M-s", do 
-                windows $ W.view "☢ spotify"
-                runOrRaise "spotify" (className=? "Spotify")
-                )
+        , ("M-s", do windows $ W.view "☢ spotify")
         , ("M-t", windows $ W.view "☄ terminal")
         , ("M-r", windows $ W.view "∇ remote")
         , ("M-<F10>", spawn "shutter")
+        , ("M-a s", spawn "systemctl --user start friday-voice-assistant.service")
+        , ("M-a q", spawn "systemctl --user stop friday-voice-assistant.service")
       ]
 
 --------------------- Combine

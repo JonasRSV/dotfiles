@@ -6,39 +6,83 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+" Utilities
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+
+
+" Code forces
 Plugin 'gabrielsimoes/cfparser.vim'
 
-Plugin 'neovim/nvim-lsp'
-Plugin 'junegunn/goyo.vim'
-Plugin 'ncm2/ncm2-ultisnips'
+" Completion
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'ycm-core/YouCompleteMe'
+Plugin 'neoclide/coc.nvim'
+Plugin 'neovim/nvim-lspconfig'
+Plugin 'rust-lang/rust.vim'
+Plugin 'cespare/vim-toml'
+
+" FZF + LSP
+Plugin 'ojroques/nvim-lspfuzzy'
+
+" Niceities
 Plugin 'ryanoasis/vim-devicons'
+
+" Navigation
+Plugin 'majutsushi/tagbar'
+Plugin 'ms-jpq/chadtree'
+
+" Front-End
+Plugin 'mattn/emmet-vim'
+
+" Note taking
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'junegunn/goyo.vim'
+
+"Syntax highlight
+Plugin 'uarun/vim-protobuf'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'chr4/nginx.vim'
+
+Plugin 'evanleck/vim-svelte'
+
+" Git 
+Plugin 'tpope/vim-fugitive'
 call vundle#end()            " required
 
-lua << EOF
-local nvim_lsp = require'nvim_lsp'
-nvim_lsp.bashls.setup{}
-nvim_lsp.clangd.setup{}
-nvim_lsp.dockerls.setup{}
-nvim_lsp.texlab.setup{}
-nvim_lsp.ghcide.setup{}
-EOF
 
-set omnifunc=v:lua.vim.lsp.omnifunc
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
+lua vim.api.nvim_set_var("chadtree_settings", { sort_by = {"is_folder", "fname"} })
 
-
+let g:python3_host_prog = '/usr/bin/python3.8'
 set completeopt=noinsert,menuone,noselect
 
 
+
+"autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+
+let g:loaded_fzf_vim = 1
+
+lua << EOF
+require'lspconfig'.rust_analyzer.setup{}
+require('lspfuzzy').setup {}
+
+local nvim_lsp = require'lspconfig'
+  -- Disable Diagnostcs globally
+  vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
+
+EOF
+
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K  <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+
+
+let g:completion_enable_snippet = 'UltiSnips'
 let g:UltiSnipsJumpForwardTrigger	= "<C-m>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
+
 
 set backupdir=/home/jonas/.backups
 set directory=/home/jonas/.backups
@@ -46,8 +90,7 @@ set directory=/home/jonas/.backups
 
 let g:disable_vim_auto_close_plugin = 1
 "Global sets
-set laststatus=1
-set statusline=%f\ %y
+set laststatus=0
 
 set encoding=utf-8
 set guifont=DroidSansMono\ Nerd\ Font\ Complete\ Mono\ 14
@@ -84,6 +127,7 @@ set tabstop=2 "not sure"
 set shiftwidth=2  "tab width"
 set expandtab "Convert tab to spaces"
 set ai "Keeps indentation from last line"
+set nu
 
 " window splits are automatically on right now
 set splitright
@@ -110,6 +154,13 @@ filetype plugin indent on
 "map <leader><C-@> :vertical sbp<CR>`"zz
 "endif
 
+nnoremap <C-space> :CocAction<CR>
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
 inoremap (<CR> ()<Esc>i
 inoremap {<CR> {<CR>}<Esc>O
 inoremap {; {<CR>};<Esc>O
@@ -121,13 +172,18 @@ inoremap [, [],<Esc>i<Esc>i
 nnoremap j gj
 nnoremap k gk
 
+nnoremap <C-w> <C-w>w
+nnoremap <C-e> :CHADopen<CR>
+
 map <space> <leader>
-map s /
-map <C-d> :bd<CR>
+map <C-c> :bd<CR>
 map ö 7j
 map ä 7k
 map Y 0y$
 map Z zz
+
+nnoremap L Lzz
+nnoremap H Hzz
 
 " For syncing clipboard on unix systems with xclip
 "map <C-y> yy \| :call system("xclip -selection clipboard -in", @0)<CR>
@@ -135,54 +191,70 @@ map Z zz
 
 
 "stty -ixon IS NEEDED FOR C-s binding put in *rc
-nnoremap gw :RgSearchWord<CR>
-nnoremap <leader><F10> :silent! Make<CR>
+nnoremap gw :SearchWordWithRipGrep<CR>
 
+
+highlight StatusLine guibg=#00000 guifg=#b8ff73
 highlight QuickFixLine term=bold,underline cterm=bold,underline gui=bold,underline
 highlight Folded guibg=#3a3c3f guifg=#c0c4ce
+hi FoldColumn guifg=#00000 guibg=#00000
+hi SignColumn guifg=#00000 guibg=#00000
+
 
 nnoremap <C-f> :call Fzf_dev()<CR>
 nnoremap <C-g> :Rg<CR>
+nnoremap tb :TagbarToggle<CR>
 
 nnoremap F gg=G<C-o><C-o>zz
-nnoremap <C-b> :Buffers<CR>
-nnoremap <C-space> @:
 nnoremap <C-j> :cnext<CR>
 nnoremap <C-k> :cprev<CR>
 
 
-"LSP keymaps
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-
-
 command! Make execute "make " . expand("%") . " | redraw! | vertical cope | vertical resize 100 | wincmd p"
-command! RgSearchWord execute "Rg " . expand("<cword>") 
+command! SearchWordWithRipGrep execute "Rg " . expand("<cword>") 
 
+
+au BufRead,BufNewFile *.journal set filetype=journal
 
 au FileType netrw setl bufhidden=delete
-au FileType go set equalprg=gofmt
-au FileType javascript set equalprg=standard\ --stdin\ --fix
+au FileType go setlocal equalprg=gofmt
+au FileType javascript setlocal equalprg=js-beautify\ --stdin
+au FileType haskell setlocal equalprg=stylish-haskell
+au FileType cpp setlocal equalprg=clang-format
+au FileType json setlocal equalprg=js-beautify
 
-au FileType python set makeprg=python3\ %
-au FileType python set equalprg=yapf
+au FileType python setlocal makeprg=python3\ %
+au FileType python setlocal equalprg=yapf
 au FileType python compiler python
 au FileType python nnoremap <F10> :silent exec "!python3 %"<CR>
+au FileType html nnoremap <buffer> <leader><F10> :!xdg-open %<CR>
+
+" Emmet only for html / css
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,mail EmmetInstall
 
 
 func RenderTex()
-  let file="main.tex"
-  call system("pdflatex " .  file)
+  silent! call system("latexmk -pdf ")
 endfun
 
-au FileType tex au BufWritePost <buffer> call RenderTex()
-
-func TexPreview()
-  call system("gv -widgetless -spartan -watch " . expand("%:r") . ".pdf")
+func WritingMode()
+  setlocal statusline=\ 
+  setlocal nonu
+  setlocal nornu
+  setlocal colorcolumn=
+  setlocal laststatus=0
+  hi FoldColumn guifg=#00000 guibg=#00000
+  hi SignColumn guifg=#00000 guibg=#00000
+  set wm=20
+  set spell
 endfun
-command TexPreview silent call TexPreview()
+
+augroup latex 
+  autocmd!
+  au BufWritePost *.tex call RenderTex()
+  au FileType tex call WritingMode()
+augroup END
 
 augroup remember_folds
   autocmd!
@@ -193,6 +265,11 @@ augroup remember_folds
 augroup END
 
 " Floating Window Stuff
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " general
 let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
@@ -262,3 +339,5 @@ function! Fzf_dev()
         \ 'window': 'call CreateCenteredFloatingWindow()'})
 
 endfunction
+
+

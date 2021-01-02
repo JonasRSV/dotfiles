@@ -1,0 +1,33 @@
+<eww>
+  <definitions>
+    <def name="quote">
+      <box orientation="v" space-evenly="false" class="quote-box">
+        <label class="quote-main" halign="start" text="{{quote}}{{quote-gen}}" wrap="true" width="25"/>
+        <label class="quote-tail" halign="start" text="{{quote-tail}}" wrap="true" width="25"/>
+        <label class="quote-author" text="- {{author-quote}}" halign="end"/>
+      </box>
+    </def>
+
+  </definitions>
+
+  <variables>
+
+
+    <!-- Quote vars -->
+    <script-var name="author-quote" interval="10m">cat /tmp/xmonad/quotes/author</script-var>
+    <script-var name="quote" interval="10m">cat /tmp/xmonad/quotes/quote</script-var>
+    <script-var name="quote-gen" interval="30m">~/.config/eww/scripts/quotes</script-var>
+    <script-var name="quote-tail" interval="10m">cat /tmp/xmonad/quotes/quote-tail</script-var>
+
+
+  </variables>
+
+  <windows>
+    <window name="quote">
+      <geometry x="100px" y="100px" width="630px" height="120px"/>
+      <widget>
+        <quote/>
+      </widget>
+    </window>
+  </windows>
+</eww>

@@ -1,28 +1,22 @@
-export LOCAL_IP=$(ifconfig wlp58s0 | grep -m 1 inet | awk '{print $2}')
-#export PUBLIC_IP=$(dig @ns1-1.akamaitech.net ANY whoami.akamai.net +short)
-export UPTIME="$(cat /proc/uptime | awk '{print $2}')"
+source $HOME/.env
+export PATH=${PATH}:/usr/local/go/bin:$HOME/go/bin
 
-export PATH=/usr/local/clang_9.0.0/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/clang_9.0.0/lib:$LD_LIBRARY_PATH
-
-export PYTHONPATH=/home/jonas/scripts:$PYTHONPATH
 
 echo "$(envsubst < ~/.landing)"
 
-for file in ~/dotfiles/scripts/*; do source $file; done
+for file in ~/dotfiles/zsh-scripts/*; do source $file; done
 
+# Setting up prompt
+fpath+=$HOME/dotfiles
 autoload -U promptinit; promptinit
-
 prompt pure
+
 
 # pavucontrol (For pulse audio!!) bluetoothctl to connect to headset!! (pacmd for other stuff!!)
 
-source ~/dotfiles/zsh-autosuggestions.zsh
+# Setting up autocompletions
 bindkey '^n' forward-word
 ZSH_AUTO_SUGGEST_STRATEGY=(history completion)
-
-
-source /home/jonas/plugins/z.sh
 
 # For completion and history search to work nice
 HISTFILE=~/.zsh_history
@@ -32,21 +26,29 @@ setopt appendhistory
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+function pretty_tsv {
+    column -t -s $'\t' -n "$@" | less -F -S -X -K
+}
+
+function pretty_csv {
+    column -t -s, -n "$@" | less -F -S -X -K
+}
 
 function lazy-push {
   message=$(curl https://whatthecommit.com/ | cat | grep '<p>' | cut -c 4-)
   git add . && git commit -m $message && git push
 }
 
+
 function cr {
-  clang++ -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
+  clang++ $2 $3 $4 -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
 }
 
 function crp {
   clang++ -O2 -Wall $1 -o cr_run_file.out && ./cr_run_file.out && rm cr_run_file.out
 }
 
-function hrp {
+function haskell {
   ghc -O2 -o haskell-script $1 && ./haskell-script $2 $3 $4 $5 && rm haskell-script
 
 }
@@ -58,13 +60,19 @@ function search {
   find $1 2>&1 | grep -v "Permission Denied" | grep $2 | fzf -m --ansi --preview='bat --theme="OneHalfDark" --style=numbers,changes --color always {}'
 }
 
+function sudosearch {
+  sudo find $1 2>&1 | grep -v "Permission Denied" | grep $2 | fzf -m --ansi --preview='bat --theme="OneHalfDark" --style=numbers,changes --color always {}'
+}
 
-alias gpu-ssh="ssh 192.168.10.131 -i ~/.ssh/gpubot_rsa"
+
+alias vim-journal="vim +Goyo +$JOURNAL_VIM_THEME $(find $HOME/.journal | grep -Po '.*\d+.*\.journal' | tr '\n' ' ')"
+alias ssh-gpu="ssh 192.168.1.10 -i ~/.ssh/gpubot_rsa"
+alias ssh-gcloud-friday='gcloud beta compute ssh --zone "europe-north1-a" "friday-recordings" --project "seventh-atom-291111"'
+alias ssh-gpu-gui="ssh -Y 192.168.1.10 -i ~/.ssh/gpubot_rsa" 
 alias sr=search
+alias susr=sudosearch
 alias ipy="ipython --profile J"
 alias python="python3"
-#alias pip="pip3"
-alias l='ls -a --color=tty'
 alias ls='ls --color=tty'
 alias grep='grep --color=auto '
 alias go-home="sudo openvpn --config ~/pivpns/jonas.ovpn"
@@ -74,6 +82,16 @@ alias gitCba=lazy-push
 #alias find=fd
 alias memory=ncdu
 alias xd=xdg-open
+
+function git-add-all-commit {
+  git add . 
+  git commit -m $1
+}
+
+alias ga="git-add-all-commit"
+alias gp="git push"
+alias gs="git status"
+alias gu="git pull"
 
 function preview {
  gv -widgetless -spartan -watch -antialias $1 &
@@ -86,16 +104,18 @@ vf() {
 }
 
 
-ezh() {
+ezsh() {
   vim ~/.zshrc
+  source $HOME/.zshrc
 }
 
-szh() {
-  source ~/.zshrc
-}
-
-evi() {
+evim() {
   vim ~/.vimrc
+}
+
+eenv() {
+  vim $HOME/.env
+  source $HOME/.zshrc
 }
 
 
@@ -123,6 +143,7 @@ zz() {
   cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
 }
 
+# Auto start tmux
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux
     #tmux attach -t default || tmux new -s default
@@ -135,8 +156,6 @@ if [ -f '/home/jonas/google-cloud-sdk/path.zsh.inc' ]; then . '/home/jonas/googl
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/jonas/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/jonas/google-cloud-sdk/completion.zsh.inc'; fi
 
-export EDITOR=vim
-export VISUAL=vim
 
 
 local-port-scan() {
@@ -153,14 +172,6 @@ monitor-http-meta() {
   sudo tshark -Y 'http.request.method == "PUT" || http.request.method == "GET" || http.request.method == "POST"' -Tfields -e frame.time -e ip.src -e ip.dst -e http.request.method -e http.request.full_uri -e http.content_type
 }
 
-alias copilot="./.local/share/kite/current/linux-unpacked/kite &"
-
-
-# Install 
-# Install Ruby Gems to ~/gems
-export GEM_HOME="$HOME/.config/gems"
-export PATH="$HOME/.config/gems/bin:$PATH"
-
 
 quickpy () {
   cd ~/tmp
@@ -168,5 +179,20 @@ quickpy () {
   mkdir $id
   cd $id
   vim $id.py
+}
+
+workplace_vim() {
+  z
+  vim -c "CHADopen"
+}
+
+alias v="workplace_vim"
+
+dual () {
+  xrandr --output eDP-1  --left-of HDMI-2 --output HDMI-2 --primary --auto
+}
+
+single () {
+  xrandr --output HDMI-2 --off
 }
 
