@@ -1,5 +1,6 @@
 source $HOME/dotfiles/.env
 export PATH=${PATH}:/usr/local/go/bin:$HOME/go/bin
+export PATH=${PATH}:$HOME/dotfiles/bin
 
 
 echo "$(envsubst < ~/dotfiles/.landing)"
