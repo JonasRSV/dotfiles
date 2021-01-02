@@ -189,6 +189,14 @@ else
   echo "${fg_magenta} $XMONAD_PATH already exists - skipping... ${reset}"
 fi 
 
+XMONAD_XSESSION_PATH=/usr/share/xsessions/xmonad.desktop
+if [ ! -f $XMONAD_XSESSION_PATH ]; then
+  echo "${fg_green} Linking $HOME/dotfiles/xmonad.desktop -> $XMONAD_XSESSION_PATH ${reset}"
+  sudo ln -s $PWD/xmonad.desktop /usr/share/xsessions/xmonad.desktop
+else
+  echo "${fg_magenta} $XMONAD_XSESSION_PATH already exists - skipping... ${reset}"
+fi 
+
 echo "${fg_green}$ Creating .xsessionrc that will start xmonad ${reset}"
 
 XSESSIONRC_PATH=$HOME/.xsessionrc
