@@ -189,6 +189,16 @@ else
   echo "${fg_magenta} $XMONAD_PATH already exists - skipping... ${reset}"
 fi 
 
+CALC_PATH=/usr/bin/calc
+if [ ! -f $CALC_PATH ]; then
+  echo "${fg_green} Linking $HOME/dotfiles/bin/calc -> $CALC_PATH ${reset}"
+  sudo ln -s $HOME/dotfiles/bin/calc $CALC_PATH
+else
+  echo "${fg_magenta} $CALC_PATH already exists - skipping... ${reset}"
+fi 
+
+
+
 XMONAD_XSESSION_PATH=/usr/share/xsessions/xmonad.desktop
 if [ ! -f $XMONAD_XSESSION_PATH ]; then
   echo "${fg_green} Linking $HOME/dotfiles/xmonad.desktop -> $XMONAD_XSESSION_PATH ${reset}"
@@ -197,18 +207,19 @@ else
   echo "${fg_magenta} $XMONAD_XSESSION_PATH already exists - skipping... ${reset}"
 fi 
 
-echo "${fg_green}$ Creating .xsessionrc that will start xmonad ${reset}"
+# TODO this might break it actually? just use the desktop thingy
+#echo "${fg_green}$ Creating .xsessionrc that will start xmonad ${reset}"
 
-XSESSIONRC_PATH=$HOME/.xsessionrc
-if [ ! -f $XSESSIONRC_PATH ]; then
-  echo "${fg_green} Linking $HOME/dotfiles/.xsessionrc -> $XSESSIONRC_PATH ${reset}"
-  ln -s $HOME/dotfiles/.xsessionrc $XSESSIONRC_PATH
+#XSESSIONRC_PATH=$HOME/.xsessionrc
+#if [ ! -f $XSESSIONRC_PATH ]; then
+  #echo "${fg_green} Linking $HOME/dotfiles/.xsessionrc -> $XSESSIONRC_PATH ${reset}"
+  #ln -s $HOME/dotfiles/.xsessionrc $XSESSIONRC_PATH
 
-  echo "${fg_green}$ If something breaks when you restart now - just enter a tty and comment out the contents of this create file ${reset}"
-else
-  echo "${fg_magenta} $XSESSIONRC_PATH already exists - skipping... ${reset}"
-  echo "${fg_magenta} Make sure the file launches xmonad.. ${reset}"
-fi 
+  #echo "${fg_green}$ If something breaks when you restart now - just enter a tty and comment out the contents of this create file ${reset}"
+#else
+  #echo "${fg_magenta} $XSESSIONRC_PATH already exists - skipping... ${reset}"
+  #echo "${fg_magenta} Make sure the file launches xmonad.. ${reset}"
+#fi 
 
 echo "${fg_green}$ Setting up for eww ${reset}"
 
