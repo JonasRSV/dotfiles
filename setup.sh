@@ -228,8 +228,21 @@ else
   echo "${fg_magenta} $EWW_PATH already exists - skipping... ${reset}"
 fi 
 
-echo "${fg_green}$ Setting up picom (for nice corners in WM) ${reset}"
 
+echo "${fg_green}$ Setting up for nerdfonts ${reset}"
+NERD_FONTS=$(fc-list | grep Nerd)
+if [ -z $NERD_FONTS ] 
+then 
+  echo "${fg_red}nerds fonts not found Please install it${fg_reset}"
+  echo "Try:"
+  echo "       git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/.nerd-fonts && ~/.nerd-fonts/install.sh"
+  echo "${fg_red} This will take a while since it is a lot of fonts${fg_reset}"
+  exit 1
+else
+  echo "${fg_magenta} Nerdfonts already exists - skipping... ${reset}"
+fi
+
+echo "${fg_green}$ Setting up picom (for nice corners in WM) ${reset}"
 if ! command -v picom 
 then 
   echo "${fg_red}picom not found Please install it${fg_reset}"
