@@ -2,7 +2,7 @@ source $HOME/dotfiles/.env
 export PATH=${PATH}:/usr/local/go/bin:$HOME/go/bin
 
 
-echo "$(envsubst < ~/.landing)"
+echo "$(envsubst < ~/dotfiles/.landing)"
 
 for file in ~/dotfiles/zsh-scripts/*; do source $file; done
 
