@@ -110,7 +110,7 @@ myStartupHook =
     <+> setDefaultCursor xC_left_ptr
     <+> setWMName "LG3D"
     <+> spawn "exec $HOME/dotfiles/start_eww"
-    <+> spawn "feh --bg-scale /home/jonas/dotfiles/coolbg.jpg"
+    <+> spawn "feh --bg-scale $HOME/dotfiles/coolbg.jpg"
 
 
 ------------------------- My Prompt

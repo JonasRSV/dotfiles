@@ -218,6 +218,11 @@ then
   exit 1
 fi
 
+
+echo "${fg_green}$ Setting up GDM3 ${reset}"
+echo "${fg_green}$ Running 'sudo dpkg-reconfigure gdm3' ${reset}"
+sudo dpkg-reconfigure gdm3
+
 PICOM_PATH=$HOME/.config/picom.conf
 
 if [ ! -f $PICOM_PATH ]; then
