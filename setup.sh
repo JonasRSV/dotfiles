@@ -100,7 +100,7 @@ else
 fi
 
 VIM_PATH=$HOME/.vim
-if [ ! -f $VIMRC_PATH/colors/mycolo.vim ]; then
+if [ ! -f $VIM_PATH/colors/mycolo.vim ]; then
   echo "${fg_green} Linking $HOME/dotfiles/.vim -> $VIM_PATH ${reset}"
   ln -s $HOME/dotfiles/.vim $VIM_PATH 
 else
