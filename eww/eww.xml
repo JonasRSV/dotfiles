@@ -8,10 +8,28 @@
       </box>
     </def>
 
+     <def name="mycontrols">
+      <box orientation="v" space-evenly="false" class="sliders-side">
+        <box orientation="h" class="slider-vol-side" space-evenly="false">
+          <box class="label-vol-side"></box>
+          <scale min="0" max="101" value="{{volume}}" onchange="amixer set Master {}"/>
+        </box>
+      </box>
+    </def>
+
+     <def name="myip">
+      <box orientation="h" space-evenly="true" class="myip-box">
+        <label class="myip-local" halign="center" text="{{myip-local}}" />
+        <label class="myip-public" halign="center" text="{{myip-public}}" />
+      </box>
+    </def>
+
   </definitions>
 
   <variables>
 
+    <!-- Control vars -->
+    <script-var name="volume" interval="100ms">~/.config/eww/scripts/getvol</script-var>
 
     <!-- Quote vars -->
     <script-var name="author-quote" interval="10m">cat /tmp/xmonad/quotes/author</script-var>
@@ -19,15 +37,35 @@
     <script-var name="quote-gen" interval="30m">~/.config/eww/scripts/quotes</script-var>
     <script-var name="quote-tail" interval="10m">cat /tmp/xmonad/quotes/quote-tail</script-var>
 
+    <!-- IP vars -->
+    <script-var name="myip-local" interval="100m">echo $LOCAL_IP </script-var>
+    <script-var name="myip-public" interval="100m">dig +short myip.opendns.com @resolver1.opendns.com </script-var>
+
 
   </variables>
 
   <windows>
+
     <window name="quote">
       <geometry x="100px" y="100px" width="630px" height="120px"/>
       <widget>
         <quote/>
       </widget>
     </window>
+
+    <window name="mycontrols">
+      <geometry x="100px" y="230px" width="300px" height="70px"/>
+      <widget>
+        <mycontrols/>
+      </widget>
+    </window>
+
+    <window name="myip">
+      <geometry x="415px" y="230px" width="315px" height="70px"/>
+      <widget>
+        <myip/>
+      </widget>
+    </window>
+
   </windows>
 </eww>

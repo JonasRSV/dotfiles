@@ -1,4 +1,4 @@
-source $HOME/.env
+source $HOME/dotfiles/.env
 export PATH=${PATH}:/usr/local/go/bin:$HOME/go/bin
 
 
@@ -114,7 +114,7 @@ evim() {
 }
 
 eenv() {
-  vim $HOME/.env
+  vim $HOME/dotfiles/.env
   source $HOME/.zshrc
 }
 

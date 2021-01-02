@@ -207,3 +207,22 @@ if [ ! -f $XSESSIONRC_PATH ]; then
 else
   echo "${fg_magenta} $EWW_PATH already exists - skipping... ${reset}"
 fi 
+
+echo "${fg_green}$ Setting up picom (for nice corners in WM) ${reset}"
+
+if ! command -v picom 
+then 
+  echo "${fg_red}picom not found Please install it${fg_reset}"
+  echo "Build it from:"
+  echo "       https://github.com/yshui/picom"
+  exit 1
+fi
+
+PICOM_PATH=$HOME/.config/picom.conf
+
+if [ ! -f $PICOM_PATH ]; then
+  echo "${fg_green} Linking $HOME/dotfiles/picom.conf -> $PICOM_PATH ${reset}"
+  ln -s $HOME/dotfiles/picom.conf $PICOM_PATH
+else
+  echo "${fg_magenta} $PICOM_PATH already exists - skipping... ${reset}"
+fi 
