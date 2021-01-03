@@ -31,9 +31,16 @@
       </box>
     </def>
 
+     <def name="myhostname">
+      <box style="background-image: url('{{myhostname-image}}');" orientation="v" space-evenly="false" class="myhostname-box">
+        <label class="myhostname-name" halign="center" text="@{{myhostname-name}}" />
+      </box>
+    </def>
+
   </definitions>
 
   <variables>
+
 
     <!-- Control vars -->
     <script-var name="volume" interval="100ms">~/.config/eww/scripts/getvol</script-var>
@@ -47,6 +54,10 @@
     <!-- IP vars -->
     <script-var name="myip-local" interval="100m">hostname -I | cut -d " " -f1 </script-var>
     <script-var name="myip-public" interval="100m">dig +short myip.opendns.com @resolver1.opendns.com </script-var>
+
+    <!-- hostname vars -->
+    <script-var name="myhostname-name" interval="100m">hostname</script-var>
+    <script-var name="myhostname-image" interval="100ms">~/.config/eww/scripts/gethostim</script-var>
 
 
   </variables>
@@ -78,6 +89,13 @@
       <geometry x="100px" y="385px" width="180px" height="70px"/>
       <widget>
         <mylocip/>
+      </widget>
+    </window>
+
+    <window name="myhostname">
+      <geometry x="290px" y="310px" width="110px" height="145px"/>
+      <widget>
+        <myhostname/>
       </widget>
     </window>
 

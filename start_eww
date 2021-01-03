@@ -6,3 +6,4 @@ sleep 1
  eww open mycontrols &
  eww open mypubip &
  eww open mylocip &
+ eww open myhostname &
