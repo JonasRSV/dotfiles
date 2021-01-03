@@ -17,10 +17,17 @@
       </box>
     </def>
 
-     <def name="myip">
-      <box orientation="h" space-evenly="true" class="myip-box">
-        <label class="myip-local" halign="center" text="{{myip-local}}" />
-        <label class="myip-public" halign="center" text="{{myip-public}}" />
+     <def name="mylocip">
+      <box orientation="h" space-evenly="false" class="myip-box">
+          <box class="mylocip-icon">⌂</box>
+        <label class="mylocip-ip" halign="center" text="{{myip-local}}" />
+      </box>
+    </def>
+
+     <def name="mypubip">
+      <box orientation="h" space-evenly="false" class="myip-box">
+          <box class="mypubip-icon">🌐</box>
+        <label class="mypubip-ip" halign="center" text="{{myip-public}}" />
       </box>
     </def>
 
@@ -38,7 +45,7 @@
     <script-var name="quote-tail" interval="10m">cat /tmp/xmonad/quotes/quote-tail</script-var>
 
     <!-- IP vars -->
-    <script-var name="myip-local" interval="100m">echo $LOCAL_IP </script-var>
+    <script-var name="myip-local" interval="100m">hostname -I | cut -d " " -f1 </script-var>
     <script-var name="myip-public" interval="100m">dig +short myip.opendns.com @resolver1.opendns.com </script-var>
 
 
@@ -60,10 +67,17 @@
       </widget>
     </window>
 
-    <window name="myip">
-      <geometry x="415px" y="230px" width="315px" height="70px"/>
+    <window name="mypubip">
+      <geometry x="100px" y="310px" width="180px" height="70px"/>
       <widget>
-        <myip/>
+        <mypubip/>
+      </widget>
+    </window>
+
+    <window name="mylocip">
+      <geometry x="100px" y="385px" width="180px" height="70px"/>
+      <widget>
+        <mylocip/>
       </widget>
     </window>
 

@@ -76,8 +76,19 @@ button {
   font-size: 25px;
 }
 
-.myip-local, .myip-public {
+.mypubip-ip, .mylocip-ip {
   font-size: 16px;
   color: #84afdb;
+
+  margin-left: 10px;
+}
+
+.mypubip-icon, .mylocip-icon {
+  margin-left: 10px;
+}
+
+.mylocip-icon {
+	font-size: 24px;
+	color: #5a91e8;
 }
 

@@ -4,4 +4,5 @@
 sleep 1
  eww open quote &
  eww open mycontrols &
- eww open myip &
+ eww open mypubip &
+ eww open mylocip &
