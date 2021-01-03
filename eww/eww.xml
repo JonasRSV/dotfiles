@@ -56,7 +56,7 @@
     <script-var name="myip-public" interval="100m">dig +short myip.opendns.com @resolver1.opendns.com </script-var>
 
     <!-- hostname vars -->
-    <script-var name="myhostname-name" interval="100m">hostname</script-var>
+    <script-var name="myhostname-name" interval="100m">hostname | head -c 5</script-var>
     <script-var name="myhostname-image" interval="100ms">~/.config/eww/scripts/gethostim</script-var>
 
 
