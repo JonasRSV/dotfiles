@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CONNECTED_MONITORS=$(xrandr | grep " connected" | cut -f1 -d " ")
+
+# Bash does not support floating point math but awk does
+SCALED_BRIGHTNESS=$(echo "$1 100.0" | awk '{print $1 / $2}')
+
+for monitor in $CONNECTED_MONITORS
+do
+  echo "Setting $monitor to $SCALED_BRIGHTNESS"
+  xrandr --output $monitor --brightness $SCALED_BRIGHTNESS
+done
+

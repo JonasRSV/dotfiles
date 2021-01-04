@@ -10,6 +10,12 @@ window {
   font-family: Museo Sans;
 }
 
+button {
+  all: unset;
+  background-color: #121212;
+  padding: 10px;
+}
+
 .quote-main {
   font-size: 18px;
   font-weight: bold;
@@ -38,11 +44,8 @@ window {
   //border-radius: 10px;
 }
 
-button {
-  all: unset;
-  background-color: #121212;
-  padding: 10px;
-}
+
+/* CONTROLS */
 
 .sliders-side slider {
   all: unset;
@@ -75,6 +78,34 @@ button {
   margin-left: 35px;
   font-size: 25px;
 }
+
+.slider-bri-side scale trough highlight {
+	all: unset;
+	background-color: #B46B0B;
+	color: #000000;
+	border-radius: 10px;
+}
+
+.slider-bri-side scale trough {
+	all: unset;
+	background-color: #4e4e4e;
+	border-radius: 50px;
+	min-height: 5px;
+  min-width: 170px;
+  margin-top: 5px;
+  margin-left: 14px;
+}
+
+.label-bri-side {
+  color: #B46B0B;
+  margin-top: 5px;
+  font-family: Iosevka;
+  margin-left: 29px;
+  font-size: 25px;
+}
+
+
+/* IP */
 
 .mypubip-ip, .mylocip-ip {
   font-size: 16px;

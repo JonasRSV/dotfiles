@@ -1,0 +1,5 @@
+#!/bin/bash
+CURRENT_BRI=$(echo "$(xrandr --verbose | grep -m 1 -i brightness | cut -f2 -d ' ') 100" | awk '{print $1 * $2}')
+
+echo $CURRENT_BRI
+

@@ -14,6 +14,12 @@
           <box class="label-vol-side"></box>
           <scale min="0" max="101" value="{{volume}}" onchange="amixer set Master {}"/>
         </box>
+
+        <box orientation="h" class="slider-bri-side" space-evenly="false">
+          <box class="label-bri-side">🔆</box>
+          <scale min="0" max="101" value="{{brightness}}" 
+            onchange="~/.config/eww/scripts/briset {}"/>
+        </box>
       </box>
     </def>
 
@@ -44,6 +50,7 @@
 
     <!-- Control vars -->
     <script-var name="volume" interval="100ms">~/.config/eww/scripts/getvol</script-var>
+    <script-var name="brightness" interval="1000ms">~/.config/eww/scripts/briget</script-var>
 
     <!-- Quote vars -->
     <script-var name="author-quote" interval="10m">cat /tmp/xmonad/quotes/author</script-var>
@@ -72,28 +79,28 @@
     </window>
 
     <window name="mycontrols">
-      <geometry x="100px" y="230px" width="300px" height="70px"/>
+      <geometry x="100px" y="230px" width="300px" height="100px"/>
       <widget>
         <mycontrols/>
       </widget>
     </window>
 
     <window name="mypubip">
-      <geometry x="100px" y="310px" width="180px" height="70px"/>
+      <geometry x="100px" y="340px" width="180px" height="70px"/>
       <widget>
         <mypubip/>
       </widget>
     </window>
 
     <window name="mylocip">
-      <geometry x="100px" y="385px" width="180px" height="70px"/>
+      <geometry x="100px" y="415px" width="180px" height="70px"/>
       <widget>
         <mylocip/>
       </widget>
     </window>
 
     <window name="myhostname">
-      <geometry x="290px" y="310px" width="110px" height="145px"/>
+      <geometry x="290px" y="340px" width="110px" height="145px"/>
       <widget>
         <myhostname/>
       </widget>
