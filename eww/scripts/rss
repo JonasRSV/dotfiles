@@ -15,7 +15,7 @@ def download_rss():
 
     xml_response = response.content.decode("utf-8")
 
-    with open(TMP_FILE) as wn:
+    with open(TMP_FILE, "w") as wn:
         wn.write(xml_response)
 
 
