@@ -1,9 +1,14 @@
 #!/bin/bash
 
+eww open myrss &
+sleep 3
+
 (eww -d &)
-sleep 1
- eww open quote &
- eww open mycontrols &
- eww open mypubip &
- eww open mylocip &
- eww open myhostname &
+  sleep 1
+  eww open quote &
+  eww open mycontrols &
+  eww open mypubip &
+  eww open mylocip &
+  eww open myhostname &
+
+

@@ -3,60 +3,61 @@
 
 
 
-import Data.Bool  (bool)
-import Data.Monoid
-import Data.Maybe
+import           Data.Bool                         (bool)
+import           Data.Maybe
+import           Data.Monoid
 
-import qualified Data.Map as M
-import qualified XMonad.StackSet as W
-import qualified XMonad.Hooks.EwmhDesktops as E
+import qualified Data.Map                          as M
+import qualified XMonad.Hooks.EwmhDesktops         as E
+import qualified XMonad.StackSet                   as W
 
-import Graphics.X11.ExtraTypes
+import           Graphics.X11.ExtraTypes
 
-import System.IO
+import           System.IO
 
-import XMonad.Actions.FloatKeys
+import           XMonad.Actions.FloatKeys
 
-import XMonad
-import XMonad.Actions.CycleWS
-import XMonad.Actions.SpawnOn
-import XMonad.Actions.WindowBringer
-import XMonad.Actions.FindEmptyWorkspace
-import XMonad.Actions.WindowGo
-import XMonad.Actions.GroupNavigation
-import XMonad.Actions.Submap
+import           XMonad
+import           XMonad.Actions.CycleWS
+import           XMonad.Actions.FindEmptyWorkspace
+import           XMonad.Actions.GroupNavigation
+import           XMonad.Actions.SpawnOn
+import           XMonad.Actions.Submap
+import           XMonad.Actions.WindowBringer
+import           XMonad.Actions.WindowGo
 
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.Place
-import XMonad.Hooks.SetWMName
+import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.ManageHelpers
+import           XMonad.Hooks.Place
+import           XMonad.Hooks.SetWMName
 
-import XMonad.Layout.Fullscreen
-import XMonad.Layout.IndependentScreens
-import XMonad.Layout.Spacing
-import XMonad.Layout.Mosaic
+import           XMonad.Layout.Fullscreen
+import           XMonad.Layout.IndependentScreens
+import           XMonad.Layout.Mosaic
+import           XMonad.Layout.Spacing
 
-import XMonad.Util.Cursor
-import XMonad.Util.Run (spawnPipe, runProcessWithInput)
-import XMonad.Util.WorkspaceCompare
-import XMonad.Util.NamedWindows
+import           XMonad.Util.Cursor
+import           XMonad.Util.NamedWindows
+import           XMonad.Util.Run                   (runProcessWithInput,
+                                                    spawnPipe)
+import           XMonad.Util.WorkspaceCompare
 
-import Control.Monad
+import           Control.Monad
 
-import XMonad.Prompt
-import XMonad.Prompt.XMonad
-import XMonad.Prompt.Ssh
-import XMonad.Prompt.Shell
-import XMonad.Prompt.FuzzyMatch
+import           XMonad.Prompt
+import           XMonad.Prompt.FuzzyMatch
+import           XMonad.Prompt.Shell
+import           XMonad.Prompt.Ssh
+import           XMonad.Prompt.XMonad
 
-import Foreign.C.String
-import XMonad.Util.XUtils
+import           Foreign.C.String
+import           XMonad.Util.XUtils
 
 ---------------- Layout
 
 --chillMulti = avoidStruts (spacing (Tall nmaster rincrement mratio))
-  --where 
+  --where
     --spacing = spacingRaw True (Border 40 40 20 20) True (Border 8 8 40 40) True
     --nmaster = 2
     --rincrement = 3 / 100
@@ -72,13 +73,13 @@ import XMonad.Util.XUtils
 
 
 defaultGridWindow = avoidStruts (spacing ( mosaic 2.0 [3, 2]))
-  where 
+  where
     spacing =spacingRaw True (Border 8 8 8 8) True (Border 8 8 8 8) True
 
 
 
 
-myLayout = defaultGridWindow ||| fullscreenFull Full 
+myLayout = defaultGridWindow ||| fullscreenFull Full
 
 
 
@@ -122,7 +123,7 @@ myPromptContentHColor = "#CE8CE9"
 
 myPromptFont = "xft:VictorMono Nerd Font:regular:pixelsize=15"
 
-    
+
 myXPromptConfig :: XPConfig
 myXPromptConfig =
   XPC
@@ -137,7 +138,7 @@ myXPromptConfig =
     , fgHLight = myPromptContentHColor
 
     -- This entry has to be here but bw is 0 so cant be seen
-    , borderColor = "#000000" 
+    , borderColor = "#000000"
     -- First is Y position where 0 is to 1 is bottom
     -- Second is X position where 1 is left-most 0 is rightmost
     , position = CenteredAt 0.3 0.5
@@ -157,14 +158,14 @@ data MyPrompt = MyPrompt String (M.Map String Window)
 
 instance XPrompt MyPrompt where
   showXPrompt (MyPrompt name _) = name
-  nextCompletion = getNextOfLastWord 
+  nextCompletion = getNextOfLastWord
   commandToComplete (MyPrompt name _) command = command
   completionToCommand (MyPrompt name _) completion = completion
-  completionFunction  (MyPrompt name w) entry = 
+  completionFunction  (MyPrompt name w) entry =
     do
       python <- pythonEval
       return $ windowCompletions ++ appCompletions ++ python
-    where 
+    where
       applications = [ "spotify"
                       , "firefox"
                       , "inkscape"
@@ -191,7 +192,7 @@ instance XPrompt MyPrompt where
 
       -- Use this with autoComplete = Just x
       matchPredicate a b = take (length a) b == a
-      
+
       -- Use this to get fuzzy compl (with autoComplete = Nothing) in XPConfig
       --let matchPredicate = fuzzyMatch
 
@@ -200,18 +201,18 @@ instance XPrompt MyPrompt where
       windowCompletions = filter (\win -> matchPredicate entry win) . map fst . M.toList $ w
       --bringCompletions = filter (\win -> matchPredicate entry ("b"++win)) . map fst . M.toList $ w
 
-      -- This runs a python interpreter on the raw input and returns the result 
+      -- This runs a python interpreter on the raw input and returns the result
       -- I made a tiny python script called calc that reads from stdin - uses eval(..) - and prints res
       pythonEval = do
         res <- runProcessWithInput "calc" [] entry
         case res of
-          "" -> return []
-          something -> return ["Python > " ++ something, ""] 
+          ""        -> return []
+          something -> return ["Python > " ++ something, ""]
 
 
 
 
-  modeAction (MyPrompt _ w) completion _ = case completion of 
+  modeAction (MyPrompt _ w) completion _ = case completion of
     "spotify" -> spawn "spotify"
     "firefox" -> spawn "firefox"
     "inkscape" -> spawn "inkscape"
@@ -234,21 +235,21 @@ instance XPrompt MyPrompt where
     "mail-bridge" -> spawn "termite -e protonmail-bridge"
     "bridge" -> spawn "termite -e protonmail-bridge"
     _ -> case M.lookup completion w of
-      Just window -> (windows . W.focusWindow) $ window 
-      Nothing -> return ()
+      Just window -> (windows . W.focusWindow) $ window
+      Nothing     -> return ()
 
 
 myPrompt :: XPConfig -> X (M.Map String Window) -> X ()
-myPrompt promptConf winmap = 
+myPrompt promptConf winmap =
   do
     prompt <- evalMyPrompt
 
     mkXPrompt prompt promptConf (completionFunction prompt) (\compl -> modeAction prompt compl "")
-  where 
+  where
     evalMyPrompt = do
       wm <- winmap
       return $ MyPrompt "λ  " wm
-      
+
 
 
 
@@ -261,7 +262,7 @@ myXmobarPP xmproc wsMap = xmobarPP
     , ppLayout  = const ""
     , ppCurrent = \workspace -> (xmobarColor "#CE8CE9" "" $ displayName workspace)
     , ppVisible = \workspace -> "[ " ++ (displayName workspace) ++ " ]"
-    , ppVisibleNoWindows = Nothing 
+    , ppVisibleNoWindows = Nothing
     , ppHidden =  \workspace -> (displayName workspace)
     , ppUrgent = \workspace -> (xmobarColor "#ff0000" "" $ displayName workspace)
     , ppWsSep     = "  |  "
@@ -269,13 +270,13 @@ myXmobarPP xmproc wsMap = xmobarPP
   where
     displayName workspace = case lookup workspace wsMap of
       -- TODO maybe better window name choosing here?
-      Just windowNames -> case windowNames of 
-            [] -> "unknown"
-            names -> ((workspace ++ " ") ++) . shortenName . head $ names 
+      Just windowNames -> case windowNames of
+            []    -> "unknown"
+            names -> ((workspace ++ " ") ++) . shortenName . head $ names
       Nothing -> "unknown"
 
     shortenName name = case length name > 10 of
-      True -> (take 10 name) ++ "..."
+      True  -> (take 10 name) ++ "..."
       False -> name
 
 -- Functions for getting window names given a workspace ID
@@ -301,13 +302,13 @@ getWindowTitle w d = getTextProperty d w wM_NAME >>= (peekCString . tp_value)
 
 -- This is where we put the 'fadeInactiveLogHook' if we have a powerful computer
 
-myXmobarLogger :: Handle -> X() 
+myXmobarLogger :: Handle -> X()
 myXmobarLogger xmproc = do
   wsMap <- workspacesGrouped
   dynamicLogWithPP (myXmobarPP xmproc wsMap)
 
 myLogHook :: Handle -> Handle -> X ()
-myLogHook xmprocw1 xmprocw2 = 
+myLogHook xmprocw1 xmprocw2 =
         myXmobarLogger xmprocw1
     <+> myXmobarLogger xmprocw2
     <+> historyHook
@@ -323,10 +324,10 @@ main :: IO ()
 main = do
 
   --Always try to spawn two windows, for multiscreen, should be some better solution but .. meh
-  xmprocw1 <- spawnPipe "xmobar -x 0" 
-  xmprocw2 <- spawnPipe "xmobar -x 1" 
+  xmprocw1 <- spawnPipe "xmobar -x 0"
+  xmprocw2 <- spawnPipe "xmobar -x 1"
 
-  xmonad . docks . E.ewmh $ defaults { logHook = myLogHook xmprocw1 xmprocw2 } 
+  xmonad . docks . E.ewmh $ defaults { logHook = myLogHook xmprocw1 xmprocw2 }
 
 
 
@@ -347,7 +348,7 @@ defaults = def
   , handleEventHook = myHandleEventHook --handleEventHook defaultConfig <+> docksEventHook
   , keys          = \c -> mykeys c `M.union` keys defaultConfig c
   }
-  where  
+  where
 
     toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                 then W.sink w s
@@ -356,8 +357,8 @@ defaults = def
     mykeys (XConfig {modMask = modm}) = M.fromList $
          [   ((modm, xK_x), spawn "spotify")
 
-            
-            
+
+
            --       Workspace Related functions
            -- Open new workspace
            , ((modm, xK_n), moveTo Next EmptyWS)
@@ -380,6 +381,7 @@ defaults = def
            ])
            -- Start Prompt
            , ((modm, xK_o), myPrompt myXPromptConfig windowMap)
+           
 
            -- Controlling floating windows
            , ((modm, xK_u), withFocused toggleFloat)

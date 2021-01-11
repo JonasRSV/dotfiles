@@ -43,10 +43,40 @@
       </box>
     </def>
 
+     <def name="myrss">
+      <box orientation="v" space-evenly="true" class="myrss-box">
+        <box  orientation="v" space-evenly="false" class="myrss-title-box">
+          <label class="myrss-title" halign="center" text="World News {{myrss-download}}" />
+        </box>
+        <button class="myrss-entry" halign="start" onclick="firefox {{myrss-link-0}}" > <label class="myrssentry-text" halign="start" text="{{myrss-entry-0}}" /> </button>
+        <button class="myrss-entry" halign="start" onclick="firefox {{myrss-link-1}}" > <label class="myrssentry-text" halign="start" text="{{myrss-entry-1}}" /> </button>
+        <button class="myrss-entry" halign="start" onclick="firefox {{myrss-link-2}}" > <label class="myrssentry-text" halign="start" text="{{myrss-entry-2}}" /> </button>
+        <button class="myrss-entry" halign="start" onclick="firefox {{myrss-link-3}}" > <label class="myrssentry-text" halign="start" text="{{myrss-entry-3}}" /> </button>
+        <button class="myrss-entry" halign="start" onclick="firefox {{myrss-link-4}}" > <label class="myrssentry-text" halign="start" text="{{myrss-entry-4}}" /> </button>
+      </box>
+    </def>
   </definitions>
 
   <variables>
 
+    <!-- RSS Feed vars -->
+    <script-var name="myrss-download" interval="60m">~/.config/eww/scripts/rss download </script-var>
+
+
+    <script-var name="myrss-entry-0" interval="60m">~/.config/eww/scripts/rss entry --index=0 --max_length=43 </script-var>
+    <script-var name="myrss-link-0" interval="60m">~/.config/eww/scripts/rss link --index=0 </script-var>
+
+    <script-var name="myrss-entry-1" interval="60m">~/.config/eww/scripts/rss entry --index=1 --max_length=43 </script-var>
+    <script-var name="myrss-link-1" interval="60m">~/.config/eww/scripts/rss link --index=1 </script-var>
+
+    <script-var name="myrss-entry-2" interval="60m">~/.config/eww/scripts/rss entry --index=2 --max_length=43 </script-var>
+    <script-var name="myrss-link-2" interval="60m">~/.config/eww/scripts/rss link --index=2 </script-var>
+
+    <script-var name="myrss-entry-3" interval="60m">~/.config/eww/scripts/rss entry --index=3 --max_length=43 </script-var>
+    <script-var name="myrss-link-3" interval="60m">~/.config/eww/scripts/rss link --index=3 </script-var>
+
+    <script-var name="myrss-entry-4" interval="60m">~/.config/eww/scripts/rss entry --index=4 --max_length=43 </script-var>
+    <script-var name="myrss-link-4" interval="60m">~/.config/eww/scripts/rss link --index=4 </script-var>
 
     <!-- Control vars -->
     <script-var name="volume" interval="100ms">~/.config/eww/scripts/getvol</script-var>
@@ -103,6 +133,13 @@
       <geometry x="290px" y="340px" width="110px" height="145px"/>
       <widget>
         <myhostname/>
+      </widget>
+    </window>
+
+    <window name="myrss">
+      <geometry x="410px" y="230px" width="320px" height="255px"/>
+      <widget>
+        <myrss />
       </widget>
     </window>
 

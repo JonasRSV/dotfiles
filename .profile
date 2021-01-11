@@ -28,7 +28,7 @@ fi
 
 export SHELL=/usr/bin/zsh
 
-setxkbmap -option "ctrl:nocaps"
+#setxkbmap -option "ctrl:nocaps"
 setxkbmap -layout us
 
 export PATH="$HOME/.cargo/bin:$PATH"
