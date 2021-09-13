@@ -36,6 +36,7 @@ import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.IndependentScreens
 import           XMonad.Layout.Mosaic
 import           XMonad.Layout.Spacing
+import           XMonad.Layout.Grid
 
 import           XMonad.Util.Cursor
 import           XMonad.Util.NamedWindows
@@ -72,9 +73,9 @@ import           XMonad.Util.XUtils
     --mratio = 1 / 2
 
 
-defaultGridWindow = avoidStruts (spacing ( mosaic 2.0 [3, 2]))
+defaultGridWindow = avoidStruts (spacing Grid)
   where
-    spacing =spacingRaw True (Border 8 8 8 8) True (Border 8 8 8 8) True
+    spacing = spacingRaw True (Border 8 8 8 8) True (Border 8 8 8 8) True
 
 
 
@@ -110,8 +111,8 @@ myStartupHook =
     <+> spawn "xsetroot -cursor_name left_ptr"
     <+> setDefaultCursor xC_left_ptr
     <+> setWMName "LG3D"
-    <+> spawn "exec $HOME/dotfiles/start_eww"
     <+> spawn "feh --bg-scale $HOME/dotfiles/coolbg.jpg"
+    <+> spawn "exec $HOME/dotfiles/start_eww"
 
 
 ------------------------- My Prompt
@@ -139,7 +140,7 @@ myXPromptConfig =
 
     -- This entry has to be here but bw is 0 so cant be seen
     , borderColor = "#000000"
-    -- First is Y position where 0 is to 1 is bottom
+    -- First is Y position where 0 is top 1 is bottom
     -- Second is X position where 1 is left-most 0 is rightmost
     , position = CenteredAt 0.3 0.5
     , autoComplete = Just (100000)
@@ -334,9 +335,10 @@ main = do
 defaults = def
   {
     -- simple stuff
-    terminal      = "termite"
+    terminal      = "alacritty"
   , borderWidth   = 1 -- 1px
-  , focusedBorderColor = "#CE8CE9"
+  --, focusedBorderColor = "#CE8CE9"
+  , focusedBorderColor = "#000000"
   , normalBorderColor = "#000000"
   , manageHook = manageDocks <+> manageHook defaultConfig
 
@@ -381,17 +383,19 @@ defaults = def
            ])
            -- Start Prompt
            , ((modm, xK_o), myPrompt myXPromptConfig windowMap)
+           -- Open oryx configurator
+           , ((modm .|. shiftMask, xK_m), spawn "google-chrome https://configure.ergodox-ez.com/moonlander/layouts/WWQzn/latest/0")
            
 
            -- Controlling floating windows
            , ((modm, xK_u), withFocused toggleFloat)
-           , ((modm, xK_Up), withFocused $ keysMoveWindow (0, -50))
-           , ((modm, xK_Down), withFocused $ keysMoveWindow (0, 50))
-           , ((modm, xK_Right), withFocused $ keysMoveWindow (50, 0))
-           , ((modm, xK_Left), withFocused $ keysMoveWindow (-50, 0))
-           , ((modm .|. shiftMask, xK_Up), withFocused $ keysResizeWindow (0, -50) (0, 0))
-           , ((modm .|. shiftMask, xK_Down), withFocused $ keysResizeWindow (0, 50) (0, 0))
-           , ((modm .|. shiftMask, xK_Right), withFocused $ keysResizeWindow (50, 0) (0, 0))
-           , ((modm .|. shiftMask, xK_Left), withFocused $ keysResizeWindow (-50, 0) (0, 0))
+           , ((modm, xK_Up), withFocused $ keysMoveWindow (0, -20))
+           , ((modm, xK_Down), withFocused $ keysMoveWindow (0, 20))
+           , ((modm, xK_Right), withFocused $ keysMoveWindow (20, 0))
+           , ((modm, xK_Left), withFocused $ keysMoveWindow (-20, 0))
+           , ((modm .|. shiftMask, xK_Up), withFocused $ keysResizeWindow (0, -20) (0, 0))
+           , ((modm .|. shiftMask, xK_Down), withFocused $ keysResizeWindow (0, 20) (0, 0))
+           , ((modm .|. shiftMask, xK_Right), withFocused $ keysResizeWindow (20, 0) (0, 0))
+           , ((modm .|. shiftMask, xK_Left), withFocused $ keysResizeWindow (-20, 0) (0, 0))
          ]
 

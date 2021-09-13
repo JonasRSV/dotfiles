@@ -1,0 +1,8 @@
+#!/bin/bash
+
+## Open links in firefox
+cmd="firefox --new-tab"
+
+if [[ "$1" == "--mail" ]]; then
+	${cmd} "https://mail.google.com"
+fi

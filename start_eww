@@ -1,14 +1,9 @@
 #!/bin/bash
 
-eww open myrss &
-sleep 3
+## Run eww daemon if not running already
+if [[ ! `pidof eww` ]]; then
+	eww daemon
+	sleep 5
+fi 
 
-(eww -d &)
-  sleep 1
-  eww open quote &
-  eww open mycontrols &
-  eww open mypubip &
-  eww open mylocip &
-  eww open myhostname &
-
-
+eww open-many myrss quote mail

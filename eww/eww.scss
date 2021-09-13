@@ -1,7 +1,15 @@
 
 *{
-  all: unset;
+	all: unset;
+	font-family: feather;
+	font-family: Iosevka;
 }
+
+.genwin {
+	background-color: #2E3440;
+	border-radius: 16px;
+}
+
 window {
   background-color: #121212;
   //background-color: #080a10;
@@ -45,99 +53,6 @@ button {
 }
 
 
-/* CONTROLS */
-
-.sliders-side slider {
-  all: unset;
-  color: #ffd5cd;
-}
-.slider-vol-side {
-  margin-top: 10px;
-}
-.slider-vol-side scale trough highlight {
-	all: unset;
-	background-color: #c47eb7;
-	color: #000000;
-	border-radius: 10px;
-}
-
-.slider-vol-side scale trough {
-	all: unset;
-	background-color: #4e4e4e;
-	border-radius: 50px;
-	min-height: 5px;
-  min-width: 170px;
-  margin-top: 10px;
-  margin-left: 20px;
-}
-
-.label-vol-side {
-  color: #c47eb7;
-  margin-top: 10px;
-  font-family: Iosevka;
-  margin-left: 35px;
-  font-size: 25px;
-}
-
-.slider-bri-side scale trough highlight {
-	all: unset;
-	background-color: #B46B0B;
-	color: #000000;
-	border-radius: 10px;
-}
-
-.slider-bri-side scale trough {
-	all: unset;
-	background-color: #4e4e4e;
-	border-radius: 50px;
-	min-height: 5px;
-  min-width: 170px;
-  margin-top: 5px;
-  margin-left: 14px;
-}
-
-.label-bri-side {
-  color: #B46B0B;
-  margin-top: 5px;
-  font-family: Iosevka;
-  margin-left: 29px;
-  font-size: 25px;
-}
-
-
-/* IP */
-
-.mypubip-ip, .mylocip-ip {
-  font-size: 16px;
-  color: #84afdb;
-
-  margin-left: 10px;
-}
-
-.mypubip-icon, .mylocip-icon {
-  margin-left: 10px;
-}
-
-.mylocip-icon {
-	font-size: 24px;
-	color: #5a91e8;
-}
-
-.myhostname-box {
-    background-color: #121212;
-
-    background-size: 100px 100px;
-    background-repeat: no-repeat;
-    background-position: top;
-
-}
-
-.myhostname-name {
-	margin-top: 110px;
-  font-size: 15px;
-	color: #5a91e8;
-}
-
 //RSS
 
 .myrss-title {
@@ -153,3 +68,38 @@ button {
 
 .myrss-entry {
 }
+
+
+.iconweb, .iconmail {
+	//color: #FFFFFF;
+	font-family: Iosevka Nerd Font;
+	font-size : 70px;
+	font-weight : normal;
+}
+
+.mail-text {
+  color: #eee;
+  font-size: 40px;
+}
+//.iconmail {
+	//color: #DF584E;
+//}
+
+
+//.mail {
+	//background-color: #FFFFFF;
+	//border-radius: 16px;
+//}
+
+//.mailbox {
+	//background-color: #E5E5E5;
+	//border-radius: 10px;
+	//margin: 48px 0px 48px 0px;
+//}
+//.label_mails {
+	//color: #404040;
+	//font-size : 32px;
+	//font-weight : bold;
+	//margin: 0px 12px 0px 12px;
+//}
+

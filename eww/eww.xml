@@ -8,40 +8,6 @@
       </box>
     </def>
 
-     <def name="mycontrols">
-      <box orientation="v" space-evenly="false" class="sliders-side">
-        <box orientation="h" class="slider-vol-side" space-evenly="false">
-          <box class="label-vol-side"></box>
-          <scale min="0" max="101" value="{{volume}}" onchange="amixer set Master {}"/>
-        </box>
-
-        <box orientation="h" class="slider-bri-side" space-evenly="false">
-          <box class="label-bri-side">🔆</box>
-          <scale min="0" max="101" value="{{brightness}}" 
-            onchange="~/.config/eww/scripts/briset {}"/>
-        </box>
-      </box>
-    </def>
-
-     <def name="mylocip">
-      <box orientation="h" space-evenly="false" class="myip-box">
-          <box class="mylocip-icon">⌂</box>
-        <label class="mylocip-ip" halign="center" text="{{myip-local}}" />
-      </box>
-    </def>
-
-     <def name="mypubip">
-      <box orientation="h" space-evenly="false" class="myip-box">
-          <box class="mypubip-icon">🌐</box>
-        <label class="mypubip-ip" halign="center" text="{{myip-public}}" />
-      </box>
-    </def>
-
-     <def name="myhostname">
-      <box style="background-image: url('{{myhostname-image}}');" orientation="v" space-evenly="false" class="myhostname-box">
-        <label class="myhostname-name" halign="center" text="@{{myhostname-name}}" />
-      </box>
-    </def>
 
      <def name="myrss">
       <box orientation="v" space-evenly="true" class="myrss-box">
@@ -63,24 +29,21 @@
     <script-var name="myrss-download" interval="60m">~/.config/eww/scripts/rss download </script-var>
 
 
-    <script-var name="myrss-entry-0" interval="60m">~/.config/eww/scripts/rss entry --index=0 --max_length=43 </script-var>
+
+    <script-var name="myrss-entry-0" interval="60m">~/.config/eww/scripts/rss entry --index=0 --max_length=120 </script-var>
     <script-var name="myrss-link-0" interval="60m">~/.config/eww/scripts/rss link --index=0 </script-var>
 
-    <script-var name="myrss-entry-1" interval="60m">~/.config/eww/scripts/rss entry --index=1 --max_length=43 </script-var>
+    <script-var name="myrss-entry-1" interval="60m">~/.config/eww/scripts/rss entry --index=1 --max_length=120 </script-var>
     <script-var name="myrss-link-1" interval="60m">~/.config/eww/scripts/rss link --index=1 </script-var>
 
-    <script-var name="myrss-entry-2" interval="60m">~/.config/eww/scripts/rss entry --index=2 --max_length=43 </script-var>
+    <script-var name="myrss-entry-2" interval="60m">~/.config/eww/scripts/rss entry --index=2 --max_length=120 </script-var>
     <script-var name="myrss-link-2" interval="60m">~/.config/eww/scripts/rss link --index=2 </script-var>
 
-    <script-var name="myrss-entry-3" interval="60m">~/.config/eww/scripts/rss entry --index=3 --max_length=43 </script-var>
+    <script-var name="myrss-entry-3" interval="60m">~/.config/eww/scripts/rss entry --index=3 --max_length=120 </script-var>
     <script-var name="myrss-link-3" interval="60m">~/.config/eww/scripts/rss link --index=3 </script-var>
 
-    <script-var name="myrss-entry-4" interval="60m">~/.config/eww/scripts/rss entry --index=4 --max_length=43 </script-var>
+    <script-var name="myrss-entry-4" interval="60m">~/.config/eww/scripts/rss entry --index=4 --max_length=120 </script-var>
     <script-var name="myrss-link-4" interval="60m">~/.config/eww/scripts/rss link --index=4 </script-var>
-
-    <!-- Control vars -->
-    <script-var name="volume" interval="100ms">~/.config/eww/scripts/getvol</script-var>
-    <script-var name="brightness" interval="1000ms">~/.config/eww/scripts/briget</script-var>
 
     <!-- Quote vars -->
     <script-var name="author-quote" interval="10m">cat /tmp/xmonad/quotes/author</script-var>
@@ -88,56 +51,20 @@
     <script-var name="quote-gen" interval="30m">~/.config/eww/scripts/quotes</script-var>
     <script-var name="quote-tail" interval="10m">cat /tmp/xmonad/quotes/quote-tail</script-var>
 
-    <!-- IP vars -->
-    <script-var name="myip-local" interval="100m">hostname -I | cut -d " " -f1 </script-var>
-    <script-var name="myip-public" interval="100m">dig +short myip.opendns.com @resolver1.opendns.com </script-var>
-
-    <!-- hostname vars -->
-    <script-var name="myhostname-name" interval="100m">hostname | head -c 5</script-var>
-    <script-var name="myhostname-image" interval="100ms">~/.config/eww/scripts/gethostim</script-var>
-
 
   </variables>
 
   <windows>
 
     <window name="quote">
-      <geometry x="100px" y="100px" width="630px" height="120px"/>
+      <geometry x="1260px" y="50px" width="630px" height="120px"/>
       <widget>
         <quote/>
       </widget>
     </window>
 
-    <window name="mycontrols">
-      <geometry x="100px" y="230px" width="300px" height="100px"/>
-      <widget>
-        <mycontrols/>
-      </widget>
-    </window>
-
-    <window name="mypubip">
-      <geometry x="100px" y="340px" width="180px" height="70px"/>
-      <widget>
-        <mypubip/>
-      </widget>
-    </window>
-
-    <window name="mylocip">
-      <geometry x="100px" y="415px" width="180px" height="70px"/>
-      <widget>
-        <mylocip/>
-      </widget>
-    </window>
-
-    <window name="myhostname">
-      <geometry x="290px" y="340px" width="110px" height="145px"/>
-      <widget>
-        <myhostname/>
-      </widget>
-    </window>
-
     <window name="myrss">
-      <geometry x="410px" y="230px" width="320px" height="255px"/>
+      <geometry x="30px" y="50px" width="800px" height="255px"/>
       <widget>
         <myrss />
       </widget>

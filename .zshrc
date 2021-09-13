@@ -1,4 +1,5 @@
 source $HOME/dotfiles/.env
+source $HOME/.secretenv
 export PATH=${PATH}:/usr/local/go/bin:$HOME/go/bin
 export PATH=${PATH}:$HOME/dotfiles/bin
 
@@ -68,6 +69,7 @@ function sudosearch {
 
 alias ssh-gpu="ssh 192.168.1.10 -i ~/.ssh/gpubot_rsa"
 alias ssh-gcloud-friday='gcloud beta compute ssh --zone "europe-north1-a" "friday-recordings" --project "seventh-atom-291111"'
+alias ssh-gcloud-discover-friday='gcloud beta compute ssh --zone "europe-north1-a" "discoverfriday" --project "seventh-atom-291111"'
 alias ssh-gpu-gui="ssh -Y 192.168.1.10 -i ~/.ssh/gpubot_rsa" 
 alias sr=search
 alias susr=sudosearch
